@@ -1,5 +1,116 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+    <div class="main">
+        
+        <div class="side-bar">
+            <!-- <div>Home</div> -->
+            <div class="follow">Following</div>
+            <!-- <div>Post</div> -->
+            <div class="user">User</div>
+        </div>
+
+        <div class="middle-everything">
+            
+            {% if user.is_authenticated %}
+            <form id="form-post" action="{% url 'addpost' %}" method="post">
+                {% csrf_token %}
+            <div class="new-post">
+
+                        <div id="user-post" class="user-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                            </svg>
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+
+                        <!-- <div id="add-new-post">Add New Post</div> -->
+                        <div class="post-area">
+                            {{ new_post.post }}
+                            <!-- <textarea  id="text-post" placeholder="Something To Share?"></textarea> -->
+                            <div id="submit-post">
+                                <input id="input-post" type="submit" value="Post">
+                            </div>
+                        </div>
+                    
+                </div>
+            </form>
+            {% endif %}
+            
+            {% for post in posts %}
+            <div class="posts">
+
+                <a  href="{% url 'profile_page' post.user %}" class="hyper-link-post">
+                <div class="username">
+
+                        <div class="user-icon">
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                            </svg>
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+                        <div class="user-username">
+                            <span class="hyper-link-username">@{{ post.user }}</span><br> 
+                           <i>{{ post.date  }}</i> 
+    
+                        </div>
+                    </div>
+                </a>
+
+                <div class="post-content">
+                  {{ post.post }}
+                </div>
+
+                <div class="post-info">
+                    <div class="numbers">{{ post.like }}Like</div>
+                    <div class="numbers"> {{ post.comment.all.count }}  Comment</div>
+                    <div class="numbers"> {{post.views }} Views</div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+            <div class="posts">
+
+                <div class="username">
+                    <div class="user-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                        </svg>
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                    <div class="user-username">
+                        mohani <br> 
+                        August 2, 2023 G.C
+
+                    </div>
+                </div>
+
+                <div class="post-content">
+                    the whole content.
+                    welcome to N.com previously twinner.com today we are working on this porject 
+                    its amazing i trying ot fill some space so that i can userstand how 
+                    my website behaves so let give it a try
+                    welcome to N.com previously twinner.com today we are working on this porject 
+                    its amazing i trying ot fill some space so that i can userstand how 
+                    my website behaves so let give it a trywelcome to N.com previously twinner.com today we are working on this porject 
+                    its amazing i trying ot fill some space so that i can userstand how 
+                    my website behaves so let give it a try
+                </div>
+
+                <div class="post-info">
+                    <div>Like</div>
+                    <div>Comment</div>
+                    <div>Views</div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 {% endblock %}
