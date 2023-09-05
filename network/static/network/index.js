@@ -1,17 +1,15 @@
 
 document.addEventListener('DOMContentLoaded', () => {
-    // loadFirstPage();
+    loadFirstPage();
 
 
     document.querySelector('#form-post').addEventListener('click', () => newPost());
+    const myNodelist = document.querySelectorAll('.numbers');
+    console.log(myNodelist);
     // Check this line of code it is not working
-    const numbers = document.querySelector('.numbers').innerHTML;
-    changeNumber(numbers);
-    // confirm.log("hi");
-    // console.log(document.querySelectorAll('.numbers'));
-    // console.log("hi");  
-
-    
+    changeNumber(document.getElementsByClassName('numbers'));
+ 
+    console.log("querySelectorAll",document.querySelectorAll('.number'));
 });
 // Things need to be done when page first load
 function loadFirstPage() {
@@ -31,10 +29,19 @@ function newPost() {
     }
 }
 
+
 function changeNumber(numbers) {
-    for (let x = 0; x < numbers.length; x++) {
-        const element = numbers[x];
-        console.log(element);
+    for (let i = 0; i < numbers.length; i++) {
+        
+        const element = numbers[i];
+        const number  = parseInt(element.innerHTML);
+        if (number >= 1000000 ) {
+            element.innerHTML =   `${number / 1000000}M`
+        } else if (  number >= 1000 ) {
+            element.innerHTML =   `${(number / 1000).toFixed(1)}K`
+        } else if (number === 0 ) {
+            element.innerHTML = "";
+        }
         
     }
 }

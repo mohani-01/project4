@@ -12,6 +12,20 @@
     <div>
         <div class="middle-everything">
         <div class="profile">
+            <div id="profile-container">
+
+                <div id="profile-background">
+                </div>
+                <div id="profile-picture">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                    </svg>
+                    <i class="bi bi-person-circle"></i>
+                </div>
+                <button class="follow-button">Follow</button>
+            </div>
 
             <div>{{ user }}</div>
             {% for following in followings %}
@@ -44,14 +58,14 @@
                 </div>
             
             </a>
-            <div class="post-content">
+            <div  class="post-content">
               {{ post.post }}
             </div>
 
             <div class="post-info">
-                <div class="numbers">{{ post.like }}Like</div>
-                <div class="numbers"> {{ post.comment.all.count }}  Comment</div>
-                <div class="numbers"> {{post.views }} Views</div>
+                <div class="number">{{ post.like }} Like</div>
+                <div class="number"> {{ post.comment.all.count }}  Comment</div>
+                <div class="number"> {{post.views }} Views</div>
 
             </div>
 

@@ -11,9 +11,13 @@ from .forms import NewPost
 
 def index(request):
     posts = Post.objects.all().order_by('-date')
-    print(posts)
-    
+    for post in posts:
+        print(post.user.first_name  )
+    users = User.objects.all()
+    for user in users:
+        print(user.id, user.username, user.first_name)
 
+    
     return render(request, "network/index.html", {
         "new_post": NewPost(),
         "posts": posts,
@@ -49,6 +53,19 @@ def register(request):
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
+        print(first_name, last_name)
+        # Ensure all fields are filled
+        if not username or not email or not first_name or not last_name:
+            return render(request, "network/register.html", {
+                "message": "One or Many fields are Empty."
+            })
+        if not username:
+            return render(request, "network/register.html", {
+                "message": "Passwords must match."
+            })
+
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -60,7 +77,7 @@ def register(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User.objects.create_user(username, email, password, first_name=first_name, last_name=last_name)
             user.save()
         except IntegrityError:
             return render(request, "network/register.html", {
