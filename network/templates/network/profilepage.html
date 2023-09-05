@@ -24,14 +24,22 @@
                     </svg>
                     <i class="bi bi-person-circle"></i>
                 </div>
+                {% if user.is_authenticated %}
+                    {% if follows %}
+                <button class="follow-button">Unfollow</button>
+                    {% else %}
                 <button class="follow-button">Follow</button>
-            </div>
+                    {% endif %}
+                {% else %}
 
-            <div>{{ user }}</div>
-            {% for following in followings %}
-            <div>{{following.follows.all.count }} Follows</div>
-            <div> {{following.followers.all.count }} Followers </div>
-            {% endfor %}
+                {% endif %}
+            </div> 
+
+            <div>{{ User }}</div>
+
+            <div>{{ User.following.all.count }} Following</div>
+            <div> {{ User.followers.all.count }} Followers </div>
+
             
         </div>
 

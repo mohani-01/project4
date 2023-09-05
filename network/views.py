@@ -6,18 +6,13 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Post, Comment, Following
+from .models import User, Post, Comment
 from .forms import NewPost
+from .helpers import *
 
 def index(request):
     posts = Post.objects.all().order_by('-date')
-    for post in posts:
-        print(post.user.first_name  )
-    users = User.objects.all()
-    for user in users:
-        print(user.id, user.username, user.first_name)
-
-    
+   
     return render(request, "network/index.html", {
         "new_post": NewPost(),
         "posts": posts,
@@ -55,11 +50,11 @@ def register(request):
         email = request.POST["email"]
         first_name = request.POST["first_name"]
         last_name = request.POST["last_name"]
-        print(first_name, last_name)
+
         # Ensure all fields are filled
         if not username or not email or not first_name or not last_name:
             return render(request, "network/register.html", {
-                "message": "One or Many fields are Empty."
+                "message": "Fill all the Fields."
             })
         if not username:
             return render(request, "network/register.html", {
@@ -83,8 +78,6 @@ def register(request):
             return render(request, "network/register.html", {
                 "message": "Username already taken."
             })
-        # Create a following database for the user
-        Following.objects.create(user=user)
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
@@ -110,14 +103,41 @@ def addpost(request):
 def profile_page(request, username):
 
     user = User.objects.filter(username=username).first()
-    followings = user.creator.all()
-    posts = user.poster.all()
+    if not user:
+        ...
+   
+    follows = is_follower(username, request.user)
+    print(follows)
+    posts = user.poster.all().order_by('-date')
 
     return render(request, 'network/profilepage.html', {
-        "user": user,
-        "followings": followings,
+        "User": user,
+        "follows": follows,
         "posts": posts
     })
 
 
     return HttpResponseRedirect(reverse('index'))
+
+
+@login_required(login_url="/login")
+def following(request):
+    # user = request.user
+    user = request.user
+    follows = user.following.all()
+    posts = Post.objects.filter(user__in=follows).order_by('-date')
+    # users = user.creator.all().first()
+    # userss = users.follows.all()
+    # posts = Post.objects.filter(user__in=userss).order_by('-date')
+
+    
+    return render(request, "network/index.html", {
+        "new_post": NewPost(),
+        "posts": posts,
+    })
+    # return HttpResponseRedirect(reverse('index'))
+    
+    
+@login_required(login_url="/login")
+def follow(request):
+    return HttpResponse("Working on it.")
