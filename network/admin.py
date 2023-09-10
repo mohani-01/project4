@@ -5,5 +5,4 @@ from .models import *
 
 admin.site.register(Comment)
 admin.site.register(Post)
-# admin.site.register(Following)
 admin.site.register(User)

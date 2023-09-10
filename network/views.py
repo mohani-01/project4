@@ -1,22 +1,172 @@
+import json
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db.models import Count
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt 
 
 from .models import User, Post, Comment
 from .forms import NewPost
 from .helpers import *
 
 def index(request):
+
     posts = Post.objects.all().order_by('-date')
    
     return render(request, "network/index.html", {
         "new_post": NewPost(),
         "posts": posts,
     })
+
+
+@login_required(login_url="/login")
+def addpost(request):
+
+    # This should be get not post
+    if request.method == "POST":
+        form = NewPost(request.POST)
+
+        if form.is_valid():
+            post = form.cleaned_data["post"]
+            print(post)
+            Post.objects.create(user=request.user, post=post)
+
+        print(request.user)
+
+        return HttpResponseRedirect(reverse('index'))
+    elif request.method == "PUT":
+        user = request.user
+        data = json.loads(request.body)
+        print(data)
+        return HttpResponseRedirect(reverse('index'))
+
+
+@login_required(login_url="/login")
+def editpost(request, post_id):
+
+    if request.method != "PUT":
+        return HttpResponse("Error working on it")
+    
+    user = request.user
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error" : "Post not found."}, status=404)
+    
+    if post.user != user:
+        return JsonResponse({"error": "Your are not authorized to edit this post."}, status=401)
+
+    data = json.loads(request.body)
+    if not data.get("post"):
+        return JsonResponse({"error": "Cannot find edit field."}, status=422)
+    post.post = data["post"].strip()
+    post.save()
+
+    return JsonResponse({"success": "Post is edited successfully."}, status=201)
+    # return JsonResponse({"success": "Your post is edited sucessfully."}, status=204)
+    # return JsonResponse({"success": })
+
+    # print(data)
+    # print(data , "OKay is this working")
+    return HttpResponseRedirect(reverse('index'))
+    ...
+
+
+
+
+def profile_page(request, username):
+    print(request)
+    user = User.objects.filter(username=username).first()
+    if not user:
+        ...
+   
+    follows = is_follower(username, request.user)
+    print(follows)
+    posts = user.poster.all().order_by('-date')
+
+    return render(request, 'network/profilepage.html', {
+        "User": user,
+        "follows": follows,
+        "posts": posts
+    })
+
+
+    return HttpResponseRedirect(reverse('index'))
+
+
+@login_required(login_url="/login")
+def following(request):
+    # user = request.user
+    user = request.user
+    follows = user.following.all()
+    posts = Post.objects.filter(user__in=follows).order_by('-date')
+
+    return render(request, "network/index.html", {
+        "new_post": NewPost(),
+        "posts": posts,
+    })
+    # return HttpResponseRedirect(reverse('index'))
+    
+    
+@login_required(login_url="/login")
+def follow(request, user_id):
+    # get 
+    # if beer.salas_set.filter(nombre=sala):
+    # if beer.salas_set.filter(nombre=sala):
+    user = User.objects.get(pk=user_id)
+
+    if user == request.user:
+        messages.error(request,"Your Can't follow Yourself!")
+        return HttpResponseRedirect(reverse('index'))
+
+    if user.followers.contains(request.user):
+        user.followers.remove(request.user)
+    else:
+        user.followers.add(request.user)
+
+    return HttpResponseRedirect(reverse('profile_page', args=(user.username,)))
+
+    # try:
+    #     user = User.objects.get(pk=user_id)
+    # except User.DoesNotExist:
+    #     return JsonResponse({"error": "User doesn't exist."}, status=404)
+    # user.
+
+
+    # return HttpResponse("Working on it.")
+
+@csrf_exempt
+@login_required(login_url='/login')
+def like(request, post_id):
+
+    if request.method != 'PUT':
+        return JsonResponse({"error": "Post not found!"}, status=404)
+
+    
+
+    post = Post.objects.get(pk=post_id)
+    if post.like.contains(request.user):
+        post.like.remove(request.user)
+        post.save()
+        like = post.like.all().count()
+    
+        return JsonResponse({"success": f"{request.user} Liked post by { post.user }",
+                            "like": like,
+                            "liked" : False })
+    else:
+        post.like.add(request.user)
+        post.save()
+
+        like = post.like.all().count()
+    
+        return JsonResponse({"success": f"{request.user} UnLiked post by { post.user }",
+                            "like": like,
+                            "liked" : True })
+
 
 
 def login_view(request):
@@ -83,61 +233,3 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
-
-@login_required(login_url="/login")
-def addpost(request):
-    # This should be get not post
-    if request.method == "POST":
-        form = NewPost(request.POST)
-
-        if form.is_valid():
-            post = form.cleaned_data["post"]
-            print(post)
-            Post.objects.create(user=request.user, post=post)
-    
-
-        print(request.user)
-
-        return HttpResponseRedirect(reverse('index'))
-
-def profile_page(request, username):
-
-    user = User.objects.filter(username=username).first()
-    if not user:
-        ...
-   
-    follows = is_follower(username, request.user)
-    print(follows)
-    posts = user.poster.all().order_by('-date')
-
-    return render(request, 'network/profilepage.html', {
-        "User": user,
-        "follows": follows,
-        "posts": posts
-    })
-
-
-    return HttpResponseRedirect(reverse('index'))
-
-
-@login_required(login_url="/login")
-def following(request):
-    # user = request.user
-    user = request.user
-    follows = user.following.all()
-    posts = Post.objects.filter(user__in=follows).order_by('-date')
-    # users = user.creator.all().first()
-    # userss = users.follows.all()
-    # posts = Post.objects.filter(user__in=userss).order_by('-date')
-
-    
-    return render(request, "network/index.html", {
-        "new_post": NewPost(),
-        "posts": posts,
-    })
-    # return HttpResponseRedirect(reverse('index'))
-    
-    
-@login_required(login_url="/login")
-def follow(request):
-    return HttpResponse("Working on it.")

@@ -25,14 +25,19 @@
                     <i class="bi bi-person-circle"></i>
                 </div>
                 {% if user.is_authenticated %}
-                    {% if follows %}
-                <button class="follow-button">Unfollow</button>
-                    {% else %}
-                <button class="follow-button">Follow</button>
+                <form action="{% url 'follow' User.id %}">
+                    {% csrf_token %}
+                    {% if user != User %}
+                        {% if follows %}
+                            <button class="follow-button">Unfollow</button>
+                        {% else %}
+                            <button class="follow-button">Follow</button>
+                        {% endif %}
                     {% endif %}
                 {% else %}
-
+                    <div>{{user}}</div>
                 {% endif %}
+                </form>
             </div> 
 
             <div>{{ User }}</div>
