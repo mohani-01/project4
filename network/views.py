@@ -1,4 +1,5 @@
 import json
+from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -8,18 +9,18 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt 
-
 from .models import User, Post, Comment
 from .forms import NewPost
 from .helpers import *
 
 def index(request):
-
-    posts = Post.objects.all().order_by('-date')
-   
+    p = Paginator(Post.objects.all().order_by('-date'), 4)
+    page = request.GET.get("page")
+    posts = p.get_page(page)
     return render(request, "network/index.html", {
         "new_post": NewPost(),
         "posts": posts,
+
     })
 
 
@@ -32,12 +33,10 @@ def addpost(request):
 
         if form.is_valid():
             post = form.cleaned_data["post"]
-            print(post)
             Post.objects.create(user=request.user, post=post)
 
-        print(request.user)
-
         return HttpResponseRedirect(reverse('index'))
+
     elif request.method == "PUT":
         user = request.user
         data = json.loads(request.body)
@@ -81,12 +80,13 @@ def editpost(request, post_id):
 def profile_page(request, username):
     print(request)
     user = User.objects.filter(username=username).first()
-    if not user:
-        ...
+   
    
     follows = is_follower(username, request.user)
-    print(follows)
-    posts = user.poster.all().order_by('-date')
+
+    p = Paginator(user.poster.all().order_by('-date'), 10)
+    page = request.GET.get("page")
+    posts = p.get_page(page)
 
     return render(request, 'network/profilepage.html', {
         "User": user,
@@ -100,23 +100,26 @@ def profile_page(request, username):
 
 @login_required(login_url="/login")
 def following(request):
-    # user = request.user
+    # p = Paginator(user.poster.all().order_by('-date'), 10)
+    # page = request.GET.get("page")
+    # posts = p.get_page(page)
+
     user = request.user
     follows = user.following.all()
-    posts = Post.objects.filter(user__in=follows).order_by('-date')
+    p = Paginator(Post.objects.filter(user__in=follows).order_by('-date'), 10)
+    page = request.GET.get("page")
+    posts = p.get_page(page)
 
     return render(request, "network/index.html", {
         "new_post": NewPost(),
         "posts": posts,
     })
-    # return HttpResponseRedirect(reverse('index'))
+
     
     
 @login_required(login_url="/login")
 def follow(request, user_id):
-    # get 
-    # if beer.salas_set.filter(nombre=sala):
-    # if beer.salas_set.filter(nombre=sala):
+   
     user = User.objects.get(pk=user_id)
 
     if user == request.user:
@@ -130,44 +133,62 @@ def follow(request, user_id):
 
     return HttpResponseRedirect(reverse('profile_page', args=(user.username,)))
 
-    # try:
-    #     user = User.objects.get(pk=user_id)
-    # except User.DoesNotExist:
-    #     return JsonResponse({"error": "User doesn't exist."}, status=404)
-    # user.
-
-
-    # return HttpResponse("Working on it.")
+   
 
 @csrf_exempt
 @login_required(login_url='/login')
 def like(request, post_id):
 
     if request.method != 'PUT':
-        return JsonResponse({"error": "Post not found!"}, status=404)
+        return JsonResponse({"error": "Method not found!"}, status=405)
 
-    
-
+    # Get the post
     post = Post.objects.get(pk=post_id)
+    
+    # remove the user from the like list
     if post.like.contains(request.user):
         post.like.remove(request.user)
         post.save()
+        
         like = post.like.all().count()
-    
+
+        # return message, no of like and boolean expression
         return JsonResponse({"success": f"{request.user} Liked post by { post.user }",
                             "like": like,
                             "liked" : False })
+
+    # add the user into the like list
     else:
         post.like.add(request.user)
         post.save()
-
         like = post.like.all().count()
-    
+
+        # return message, no of like and boolean expression
         return JsonResponse({"success": f"{request.user} UnLiked post by { post.user }",
                             "like": like,
                             "liked" : True })
 
+@login_required(login_url="/login")
+def comment(request, post_id):
+    user = request.user
 
+    data = json.loads(request.body)
+
+    if not data.get("comment"):
+        return JsonResponse({"error" : "Cannot find a comment"}, status=422)
+    comment = data["comment"].strip()
+    c = Comment.objects.create(user=user, comment=comment)
+    print(c.comment, c.time)
+
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found"}, status=404)
+    
+    post.comment.add(c)
+    post.save()
+    
+    return JsonResponse({"name" : "hi"})
 
 def login_view(request):
     if request.method == "POST":
@@ -187,6 +208,10 @@ def login_view(request):
             })
     else:
         return render(request, "network/login.html")
+
+
+
+
 
 
 def logout_view(request):

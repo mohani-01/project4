@@ -2,28 +2,21 @@
 
 
 {% block body %}
-<div class="main">
-    <div class="side-bar">
-        <!-- <div>Home</div> -->
-        <div class="follow">Following</div>
-        <!-- <div>Post</div> -->
-        <div class="user">User</div>
-    </div>
-    <div>
-        <div class="middle-everything">
+
         <div class="profile">
             <div id="profile-container">
 
                 <div id="profile-background">
                 </div>
                 <div id="profile-picture">
-                    
+            
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                         <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                         <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
                     </svg>
                     <i class="bi bi-person-circle"></i>
                 </div>
+
                 {% if user.is_authenticated %}
                 <form action="{% url 'follow' User.id %}">
                     {% csrf_token %}
@@ -35,7 +28,7 @@
                         {% endif %}
                     {% endif %}
                 {% else %}
-                    <div>{{user}}</div>
+
                 {% endif %}
                 </form>
             </div> 
@@ -44,51 +37,43 @@
 
             <div>{{ User.following.all.count }} Following</div>
             <div> {{ User.followers.all.count }} Followers </div>
-
             
         </div>
 
         
-        {% for post in posts %}
-        <div class="posts">
-            <a  href="{% url 'profile_page' post.user %}" class="hyper-link-post">
-              
-                        <div class="username">
+       
 
-                    <div class="user-icon">
-                    
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                        </svg>
-                        <i class="bi bi-person-circle"></i>
-                    </div>
-                    <div class="user-username">
-                        <span class="hyper-link-username">@{{ post.user }}</span><br> 
-                       <i>{{ post.date  }}</i> 
-
-                    </div>
-                </div>
-            
-            </a>
-            <div  class="post-content">
-              {{ post.post }}
-            </div>
-
-            <div class="post-info">
-                <div class="number">{{ post.like }} Like</div>
-                <div class="number"> {{ post.comment.all.count }}  Comment</div>
-                <div class="number"> {{post.views }} Views</div>
-
-            </div>
-
-        </div>
-        <!-- <div> {{ post.post }} </div> -->
-        {% empty %}
-        <h4>No posts yet.</h4>
-        {% endfor %}
-    </div>
-    </div>
-</div>
 
 {% endblock %}
+
+<ul class="pagination">
+
+    {% if page_obj.has_previous %}
+        <li><a href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+    {% else %}
+        <li class="disabled"><span><i class="fa fa-chevron-left" aria-hidden="true"></i></span></li>
+    {% endif %}
+    
+    {% if page_obj.number|add:'-4' > 1 %}
+        <li><a href="?page={{ page_obj.number|add:'-5' }}">&hellip;</a></li>
+    {% endif %}
+    
+    {% for i in page_obj.paginator.page_range %}
+        {% if page_obj.number == i %}
+            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+            <li><a href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+    {% endfor %}
+    
+    {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+        <li><a href="?page={{ page_obj.number|add:'5' }}">&hellip;</a></li>
+    {% endif %}
+    
+    {% if page_obj.has_next %}
+        <li><a href="?page={{ page_obj.next_page_number }}"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+    {% else %}
+        <li class="disabled"><span><i class="fa fa-chevron-right" aria-hidden="true"></i></span></li>
+    {% endif %}
+    
+    </ul>

@@ -1,30 +1,82 @@
 document.addEventListener('DOMContentLoaded', () => {
     // disable the post button
-    loadFirstPage();
+
 
     // continuely check if the post button needs to be disabled or enabled
     if (document.querySelector('#form-post')) {
-        document.querySelector('#form-post').addEventListener('click', () => newPost());
+        document.querySelector('#form-post').addEventListener('click', () => {
+            const element = document.querySelector('#form-post');
+            newPost(element);
+        });
     }
+
+    if (document.querySelectorAll('.new-comment')) {
+
+
+
+        document.querySelectorAll('.new-comment').forEach(div => {
+            div.addEventListener('click', (event) => {
+
+                div.querySelector('.add-new-comment').onkeyup = () => {
+                    if ( div.querySelector('.add-new-comment').value.trim().length > 0 ) {
+                      div.querySelector('.submit-comment').disabled = false;
+             
+                    }else {
+                     div.querySelector('.submit-comment').disabled = true;
+             
+                    }
+                }
+            })
+
+            div.querySelector('.submit-comment').addEventListener('click', () => {
+             createNewComment(div.querySelector('.add-new-comment'), div);
+            })
+        });
+    }
+
 
     // change the no of views, comment and like (love ) to 1000 => 1K, 1000000 => 1M
     changeNumber(document.getElementsByClassName('numbers'));
 
-    // line of code is not important or need a imporvement if needs to be fetch the user
-    if ( document.querySelector(".follow-button")) {
+    
 
-        document.querySelector(".follow-button").addEventListener('click', event => {
-            event.preventDefault()
-            const element = event.target;
-            console.log(element.dataset.user_id);
-            console.log(element);
-            
-            setTimeout(console.log(element.dataset.user_id), 10000)
-           
-            
-        })  
 
-    }
+    // open and close the comment section as the user click the comment part of the post
+    document.querySelectorAll('.comments').forEach(button => {
+        button.addEventListener('click', (event) => {
+
+            const comment = event.target;
+
+            let posts = comment.closest('.posts');
+            let divComment = posts.getElementsByClassName('post-comments')[0];
+            if (divComment.style.display === 'none') {
+                divComment.style.display = 'block';
+            } else {
+                divComment.style.display = 'none';
+            }
+            
+
+            // console.log(divComment.getElementsByClassName('post-comments'))
+        })
+        
+    })  
+
+
+    // // line of code is not important or need a imporvement if needs to be fetch the user
+    // if ( document.querySelector(".follow-button")) {
+
+    //     document.querySelector(".follow-button").addEventListener('click', event => {
+    //         event.preventDefault()
+    //         const element = event.target;
+    //         console.log(element.dataset.user_id);
+    //         console.log(element);
+            
+    //         setTimeout(console.log(element.dataset.user_id), 10000)
+
+            
+    //     })  
+
+    // }
 
     // if user click the like exist
     if (document.querySelector('.like')) {
@@ -39,24 +91,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 // the api is implemented in the way that if they user all readly like that button return False 
                 // by removing the user for the post like list and vice versa
                 // it return 1. success message, 2. number of like(s) the post have and 3. boolean expression (if user likes it makes it red else white)
+
                 fetch(`/like/${like.dataset.post_id}`, {
                     method: 'PUT'
                 })
-                .then(respone => respone.json())
+                .then(response => {
+                    if  (response.redirected) {
+                        window.location.href = response.url;  // or, location.replace(res.url); 
+                        return;
+                    } else { 
+                    return response.json()}
+                })
                 .then(message => {
-
+                    
                     // error do nothing
                     if (message.error) {
-                        console.log(error)
+
                     }
                     else {
+                        // if the 
                         if (message.liked) {
                             like.className = "liked like";
 
                         } else {
                             like.className = "not-liked like";
                         }
-                        console.log(like);
+
                         // get the html tag where the number of like is put down.
                         const text = like.parentElement.querySelector('.like-number');
 
@@ -67,9 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Change the number
                         changeNumber(text);
                     }
+
                 })
                 .catch(error => console.log(error))
-                 
+                                
             });
         });
     }
@@ -101,21 +162,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 // Things need to be done when page first load
-function loadFirstPage() {
-    if (document.querySelector('#input-post')) {
-        document.querySelector('#input-post').disabled = true;
-    }
-}
 
 
-function newPost() {
-
-    document.querySelector('#text-post').onkeyup = () =>  { 
-        if (document.querySelector('#text-post').value.trim().length > 0 ) {
-
-            document.querySelector('#input-post').disabled = false;
+function newPost(element) {
+    element.querySelector('#text-post').onkeyup = () =>  { 
+        if (element.querySelector('#text-post').value.trim().length > 0 ) {
+            element.querySelector('#input-post').disabled = false;
         } else {
-            document.querySelector('#input-post').disabled = true;
+            element.querySelector('#input-post').disabled = true;
         }
     }
 }
@@ -247,4 +301,65 @@ function getCookie(name) {
         }
     }
     return cookieValue;
+}
+
+
+
+
+function createNewComment(text, element) {
+
+    const csrf_token = getCookie('csrftoken');
+    fetch(`/comment/${text.dataset.post_id}`, {
+        method : 'POST', 
+        body : JSON.stringify({
+            "comment": text.value
+        }),
+        headers : {
+            'X-CSRFToken' : csrf_token,
+            'Content-Type' : 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(message => {
+        if (message.error) {
+            console.log(message.error)
+        }
+
+        const time = message.time;
+        const user = message.user;
+        const name = message.name;
+        const comment = message.comment;
+
+
+        const  outerdiv = document.createElement('div');
+    
+        outerdiv.className = "post-comment new-post";
+        
+        outerdiv.innerHTML = ` <div id="user-post" class="user-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                </svg>
+                <i class="bi bi-person-circle"></i>
+            </div>
+    
+            <div class="comment-area">
+                <div class="commenter-info">
+                    <a  href="{% url 'profile_page' ${user} %}" class="hyper-link-post">
+                    <span class="commenter hyper-link-username"> ${name} </span><br> 
+                    </a>
+                    <div class="commented-on"> ${time} </div>
+    
+                </div>
+                <div class="comment"> ${comment}  </div>
+            
+            </div> `
+        const list = element.closest('.post-comments');
+    
+        list.insertBefore(outerdiv, list.children[2])
+        text.innerHTML = '';
+        text.value = '';
+    })
+    .catch(error => console.log(error))
+
 }
