@@ -190,20 +190,22 @@
 
 .profile {
     /* position: relative; */
-    border: 2px solid rgb(218, 218, 218);
+    width: 100%;
+    border: 2px solid rgb(100, 192, 92);
 }
 #profile-container {
     position: relative;
-    width: 100%;
+    width: inherit;
+    margin-right: 11rem;
     height: 14rem;
-    /* border: 2px solid rgb(0, 0, 0); */
+    border: 2px solid rgb(0, 0, 0);
 }
 
 
 #profile-background {
     position: absolute;
 
-    width: 100%;
+    width: 99%;
     height: 10rem;
     border: 0.2rem solid rgb(94, 148, 255);
     background-image: linear-gradient(to bottom right, rgb(72, 115, 163), rgb(37, 183, 240));
@@ -219,7 +221,7 @@
     height: 7rem;
     
     border: 5px solid rgb(255, 255, 255);
-    border-radius: 4rem;
+    border-radius: 5rem;
     background-color: rgb(84, 141, 165);
     color: white;
     padding: 10px;
@@ -268,19 +270,47 @@
 .comment {
     padding: 1rem;
 }
+.comment-textarea {
+    border: 2px solid rebeccapurple;
+    padding: 0.25rem 0.5rem;
+}
+.add-new-comment {
+    /* margin: 10px 20px; */
+    width: 100%;
+    height: 2.5rem;
+     border: 2px solid inherit;
+     outline: none;
+}
 
+.add-new-comment:hover {
+    border-color: orangered;
+}
+
+
+.submit-comment-area {
+    position: relative;
+    width: 100%;
+
+    border: 2px solid tan;
+    height: 2rem;
+}
 .submit-comment {
-    /* padding: ; */
+    position: absolute;
+    right: 1rem;    
     border-radius: 0.5rem;
     font-weight: 400;
     font-family: sans-serif;
     color: white;
     background-color: rgb(15, 61, 135);
 }
+
 .submit-comment:hover {
+    
     background-color: rgb(30, 90, 114);
+    
 }
 
-.submit-comment:disabled {
+.submit-comment:disabled  {
     background-color: rgb(150, 150, 150);
 }
+

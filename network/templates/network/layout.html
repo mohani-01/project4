@@ -98,7 +98,7 @@
                             </div>
         
                             <div class="post-info">
-                                    <div>
+                                <div>
                                     {% if user in post.like.all %}
                                         <button class="liked like" data-post_id="{{post.id}}" data-liked="True" >❤</button>
                                     
@@ -110,7 +110,6 @@
                                     Like</div>
                                 <div class="comments"> <span class="numbers"> {{ post.comment.all.count }}</span> Comment</div>
                                 <div><span class="numbers"> {{ post.views}} </span>  Views</div>
-            
                             </div>
                             <div style="display: none;" class="post-comments">
                                 Comments
@@ -118,12 +117,12 @@
                                 {% if user.is_authenticated %}
 
                                 <div class="new-comment">
-                                    <div>
+                                    <div class="comment-textarea">
                                         <textarea data-post_id="{{ post.id }}" class="add-new-comment" title="Comment" placeholder="Add your comment here"></textarea>                                    
                                     </div>
-                                    <div>  
+                                    <div class="submit-comment-area">  
 
-                                    <input disabled class="submit-comment" type="submit" value="Comment">  
+                                        <input disabled class="submit-comment" type="submit" value="Comment">  
 
                                     </div>
                                 </div>
@@ -149,7 +148,7 @@
                                             <div class="commented-on">{{ comment.time }}</div>
         
                                         </div>
-                                        <div class="comment">{{ comment.comment }} Your know I like you very much keep doing what you are doing. </div>
+                                        <div class="comment">{{ comment.comment }} </div>
                                     
                                     </div>
                                 

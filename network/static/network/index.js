@@ -323,43 +323,56 @@ function createNewComment(text, element) {
     .then(message => {
         if (message.error) {
             console.log(message.error)
+            return;
         }
 
-        const time = message.time;
-        const user = message.user;
-        const name = message.name;
-        const comment = message.comment;
-
-
-        const  outerdiv = document.createElement('div');
-    
-        outerdiv.className = "post-comment new-post";
+        insertCommentNumber(element, message.number);
         
-        outerdiv.innerHTML = ` <div id="user-post" class="user-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                </svg>
-                <i class="bi bi-person-circle"></i>
-            </div>
-    
-            <div class="comment-area">
-                <div class="commenter-info">
-                    <a  href="{% url 'profile_page' ${user} %}" class="hyper-link-post">
-                    <span class="commenter hyper-link-username"> ${name} </span><br> 
-                    </a>
-                    <div class="commented-on"> ${time} </div>
-    
-                </div>
-                <div class="comment"> ${comment}  </div>
-            
-            </div> `
+        // create a new element for new comment
+        const outerdiv = document.createElement('div');
+        outerdiv.className = "post-comment new-post";
+        // insert everything to it.
+        outerdiv.innerHTML = createCommentElement(message);
+        
         const list = element.closest('.post-comments');
     
-        list.insertBefore(outerdiv, list.children[2])
+        // insert the comment at the top of the comment section
+        list.insertBefore(outerdiv, list.children[2]);
+
+        // empty the comment textarea
         text.innerHTML = '';
         text.value = '';
     })
     .catch(error => console.log(error))
 
+}
+
+
+
+function createCommentElement(message) {
+    return `<div id="user-post" class="user-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+        </svg>
+        <i class="bi bi-person-circle"></i>
+    </div>
+
+    <div class="comment-area">
+        <div class="commenter-info">
+            <a  href="{% url 'profile_page' ${message.user} %}" class="hyper-link-post">
+            <span class="commenter hyper-link-username"> ${message.name} </span><br> 
+            </a>
+            <div class="commented-on"> ${message.time} </div>
+        </div>
+        <div class="comment"> ${message.comment}  </div>
+    </div> `
+}
+
+function insertCommentNumber(element, number) {
+    const topdiv = element.closest('.post-comments');
+    const postInfo = topdiv.previousElementSibling;
+    const commentNumber = postInfo.querySelector('.comments').querySelector(".numbers");
+    commentNumber.innerHTML = number;
+    changeNumber(commentNumber);
 }

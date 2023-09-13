@@ -177,18 +177,22 @@ def comment(request, post_id):
     if not data.get("comment"):
         return JsonResponse({"error" : "Cannot find a comment"}, status=422)
     comment = data["comment"].strip()
-    c = Comment.objects.create(user=user, comment=comment)
-    print(c.comment, c.time)
+    comment = Comment(user=user, comment=comment)
+    comment.save()
+
 
     try:
         post = Post.objects.get(pk=post_id)
     except Post.DoesNotExist:
         return JsonResponse({"error": "Post not found"}, status=404)
     
-    post.comment.add(c)
+    post.comment.add(comment)
     post.save()
-    
-    return JsonResponse({"name" : "hi"})
+    # print(post.comment)
+
+    print(comment.serialize(post))
+
+    return JsonResponse(comment.serialize(post))
 
 def login_view(request):
     if request.method == "POST":
