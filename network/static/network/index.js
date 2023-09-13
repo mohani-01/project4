@@ -208,12 +208,17 @@ function editPage(element, content) {
 
     // Create elements
     const button = document.createElement('button');
-    button.innerHTML = 'Edit';
+    button.innerHTML = 'Save';
     button.className = 'new-edit';
 
     const cancel = document.createElement('button');
     cancel.innerHTML = 'Cancel'
     cancel.className = 'stop-edit';
+
+    const div = document.createElement('div');
+    div.className = "edit-buttons"
+    div.append(cancel);
+    div.append(button);
 
     const textarea = document.createElement('textarea');
     textarea.innerHTML = content.trim();
@@ -222,8 +227,8 @@ function editPage(element, content) {
     // make the post content element empty
     place.innerHTML = '';
     place.appendChild(textarea);
-    place.appendChild(cancel);
-    place.appendChild(button);
+    place.appendChild(div);
+
 
     // resize the height of textarea
     place.querySelectorAll('.edit-content').forEach(textarea => {

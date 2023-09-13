@@ -91,16 +91,22 @@
 
 #input-post {
     width: 4rem;
-    background-color: rgba(3, 86, 181, 0.641);
+    background-color: rgba(14, 52, 226, 0.677);
     color: white;
     border: none;
     padding: 0.25rem;
     border-radius: 5px;
 }
 
+#input-post:hover {
+    background-color: rgb(14, 53, 226);
+    box-shadow: 3px 3px 10px rgba(165, 42, 42, 0.353);
+}
+
 
 #input-post:disabled {
     background-color: rgba(128, 128, 128, 0.555);
+    box-shadow: none;
 }
 
 
@@ -139,23 +145,66 @@
     top: 0.25rem;
     right: 0.25rem;
     z-index: 33;
-    width: 2.5rem;
-    height: 1.5rem;
-    padding: 0.15rem;
-    font-size: 0.75rem;
+   
+    padding: 0.1rem 0.7rem;
+    font-size: 0.9rem;
     font-family: sans-serif;
-    font-weight: 500;
+    /* font-weight: 500; */
     color: blue;
     background-color: transparent;
-    border: 2px solid blue;
-    border-radius: 1rem;
+    border:0.1rem solid blue;
+    border-radius: 3px;
 }
+.edit:hover {
+    /* font-size: 1rem; */
+    color: white;
+    background-color: rgb(49, 54, 192);
+    box-shadow: 2px 2px 15px silver;
+    border-radius: 0px;
+}
+
 .edit:disabled {
     border-color: silver;
 }
 
 .edit-content {
     width: 100%;
+}
+.edit-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: end;
+    margin: 0.25rem;
+}
+
+.edit-buttons > button {
+    margin: 0.2rem 0.1rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 5px;
+}
+
+.stop-edit {
+    color: black;
+    /* font-weight: 500; */
+    background-color: white;
+    border: 1px solid silver;
+}
+
+.stop-edit:hover {
+    color: white;
+    background-color: silver;
+    box-shadow: 2px 2px 10px silver;
+
+}
+
+.new-edit {
+    color: white;
+    background-color: rgb(49, 89, 192);
+    border: 1px solid silver;   
+}
+.new-edit:hover {
+    background-color: rgb(49, 54, 192);
+    box-shadow: 2px 2px 10px silver;
 }
 
 .user-image {
@@ -286,7 +335,6 @@
     border-color: orangered;
 }
 
-
 .submit-comment-area {
     position: relative;
     width: 100%;
@@ -298,7 +346,8 @@
     position: absolute;
     right: 1rem;    
     border-radius: 0.5rem;
-    font-weight: 400;
+    /* font-weight: 400; */
+    padding: 0.2rem 0.4rem;
     font-family: sans-serif;
     color: white;
     background-color: rgb(15, 61, 135);
