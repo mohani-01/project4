@@ -365,7 +365,7 @@ function createCommentElement(message) {
 
     <div class="comment-area">
         <div class="commenter-info">
-            <a  href="{% url 'profile_page' ${message.user} %}" class="hyper-link-post">
+            <a  href="/profile_page/@${message.user}" class="hyper-link-post">
             <span class="commenter hyper-link-username"> ${message.name} </span><br> 
             </a>
             <div class="commented-on"> ${message.time} </div>
