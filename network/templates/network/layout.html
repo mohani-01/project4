@@ -113,7 +113,7 @@
                             </div>
                             <div style="display: none;" class="post-comments">
                                 Comments
-                                <hr style="border: 2px solid green;">
+                                <hr style="border: 1px solid green;">
                                 {% if user.is_authenticated %}
 
                                 <div class="new-comment">
@@ -121,9 +121,7 @@
                                         <textarea data-post_id="{{ post.id }}" class="add-new-comment" title="Comment" placeholder="Add your comment here"></textarea>                                    
                                     </div>
                                     <div class="submit-comment-area">  
-
                                         <input disabled class="submit-comment" type="submit" value="Comment">  
-
                                     </div>
                                 </div>
             
