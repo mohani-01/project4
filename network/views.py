@@ -14,7 +14,7 @@ from .forms import NewPost
 from .helpers import *
 
 def index(request):
-    p = Paginator(Post.objects.all().order_by('-date'), 4)
+    p = Paginator(Post.objects.all().order_by('-date'), 10)
     page = request.GET.get("page")
     posts = p.get_page(page)
     return render(request, "network/index.html", {
