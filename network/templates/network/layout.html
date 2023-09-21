@@ -6,7 +6,7 @@
         <!-- <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
         <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
         <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
-        
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -71,7 +71,7 @@
                     {% block body %}
 
                     {% endblock %}
-                    
+                   
                     {% for post in posts %}
                     <div class="posts">
                         <div class="username">
@@ -101,17 +101,23 @@
         
                             <div class="post-info">
                                 <div>
-                                    {% if user in post.like.all %}
-                                        <button class="liked like" data-post_id="{{post.id}}" data-liked="True" >❤</button>
-                                    
-                                    {% else %}
-                                        <button class="not-liked like" data-post_id="{{post.id}}" data-liked="True">❤</button>
-                                    {% endif %}
+
+
+                                        <div class="span-like">
+                                            {% if user in post.like.all %}
+                                            <div class="liked heart" data-post_id="{{post.id}}" data-liked="True" class="not-liked like" > </div>
+                                            
+                                            {% else %}
+                                                <div class="not-liked heart" data-post_id="{{post.id}}" data-liked="False" class="not-liked like">  </div>
+                                            {% endif %}
+                                        </div>
+
+                                        &nbsp;<span data-post_id="{{post.id}}" class="like-number numbers"> {{ post.like.all.count }} </span> &nbsp;
+                                    Like
+                                        </div>
                                 
-                                    <span data-post_id="{{post.id}}" class="like-number numbers"> {{ post.like.all.count }}</span> 
-                                    Like</div>
-                                <div class="comments"> <span class="numbers"> {{ post.comment.all.count }}</span> Comment</div>
-                                <div><span class="numbers"> {{ post.views}} </span>  Views</div>
+                                <div class="comments"> <span class="numbers"> {{ post.comment.all.count }}</span>&nbsp;Comment</div>
+                                <!-- <div><span class="numbers"> {{ post.views}} </span>  Views</div> -->
                             </div>
                             <div style="display: none;" class="post-comments">
                                 Comments
@@ -164,7 +170,7 @@
                    
 
 
-                    {% if posts.number %}
+                    {% if posts.number and posts.num_pages > 1 %}
                     <nav aria-label="...">
                         <ul class="pagination">
                         {% if posts.has_previous%}

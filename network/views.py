@@ -62,6 +62,7 @@ def editpost(request, post_id):
     data = json.loads(request.body)
     if not data.get("post"):
         return JsonResponse({"error": "Cannot find edit field."}, status=422)
+    
     post.post = data["post"].strip()
     post.save()
 
@@ -167,6 +168,7 @@ def like(request, post_id):
         return JsonResponse({"success": f"{request.user} UnLiked post by { post.user }",
                             "like": like,
                             "liked" : True })
+
 
 @login_required(login_url="/login")
 def comment(request, post_id):

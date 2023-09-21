@@ -79,14 +79,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // }
 
     // if user click the like exist
-    if (document.querySelector('.like')) {
+    if (document.querySelector('.heart')) {
         // for each like button clicked fetch the user id
-        document.querySelectorAll('.like').forEach(element => {
+        document.querySelectorAll('.heart').forEach(element => {
 
             element.addEventListener('click', button => {
 
                 const like = button.target;
-
+                console.log(like);
                 // fetch the data
                 // the api is implemented in the way that if they user all readly like that button return False 
                 // by removing the user for the post like list and vice versa
@@ -111,15 +111,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     else {
                         // if the 
                         if (message.liked) {
-                            like.className = "liked like";
+                            like.className = "liked heart";
 
                         } else {
-                            like.className = "not-liked like";
+                            like.className = "not-liked heart";
                         }
 
                         // get the html tag where the number of like is put down.
-                        const text = like.parentElement.querySelector('.like-number');
-
+                        const text = like.parentElement.parentElement.querySelector('.like-number');
+                        console.log(text);
                         // then insert the number inside that
                         // converting is neccessary
                         text.innerHTML = message.like;
@@ -223,22 +223,25 @@ function editPage(element, content) {
     const textarea = document.createElement('textarea');
     textarea.innerHTML = content.trim();
     textarea.className = 'edit-content';
-
+    
     // make the post content element empty
     place.innerHTML = '';
     place.appendChild(textarea);
     place.appendChild(div);
+    
+    textarea.focus();
+    // move the cursor to the end text inside textarea
+    textarea.setSelectionRange(textarea.value.length, textarea.value.length)
+
+
 
 
     // resize the height of textarea
     place.querySelectorAll('.edit-content').forEach(textarea => {
-
         textarea.style.height = textarea.scrollHeight + 24 + 'px';   
-          
         textarea.onkeyup = () => {
             textarea.style.height = 'auto';
             textarea.style.height = textarea.scrollHeight + 24 + 'px';   
-
             }
     })
     // listen for click [Cancel and Edit]
@@ -335,7 +338,7 @@ function createNewComment(text, element) {
         
         // create a new element for new comment
         const outerdiv = document.createElement('div');
-        outerdiv.className = "post-comment new-post";
+        outerdiv.className = "post-comment";
         // insert everything to it.
         outerdiv.innerHTML = createCommentElement(message);
         
