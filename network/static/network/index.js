@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             element.addEventListener('click', button => {
 
                 const like = button.target;
-                console.log(like);
+                // console.log(like);
                 // fetch the data
                 // the api is implemented in the way that if they user all readly like that button return False 
                 // by removing the user for the post like list and vice versa
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // get the html tag where the number of like is put down.
                         const text = like.parentElement.parentElement.querySelector('.like-number');
-                        console.log(text);
+                        // console.log(text);
                         // then insert the number inside that
                         // converting is neccessary
                         text.innerHTML = message.like;
@@ -341,15 +341,20 @@ function createNewComment(text, element) {
         outerdiv.className = "post-comment";
         // insert everything to it.
         outerdiv.innerHTML = createCommentElement(message);
-        
+
         const list = element.closest('.post-comments');
-    
+        
         // insert the comment at the top of the comment section
-        list.insertBefore(outerdiv, list.children[1]);
+        list.insertBefore(outerdiv, list.children[2]);
 
         // empty the comment textarea
         text.innerHTML = '';
         text.value = '';
+
+        const parentDiv = text.closest(".comment-textarea");
+        parentDiv.querySelector(".submit-comment").disabled = true;
+
+
     })
     .catch(error => console.log(error))
 
