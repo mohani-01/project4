@@ -116,17 +116,19 @@
                                 <div class="comments"> <span class="numbers"> {{ post.comment.all.count }}</span>&nbsp;Comment</div>
                                 <!-- <div><span class="numbers"> {{ post.views}} </span>  Views</div> -->
                             </div>
+
+
                             <div style="display: none;" class="post-comments">
-                                Comments
-                                <hr>
+                                <h5 class="comment-title">Comments</h5>
+                                
                                 {% if user.is_authenticated %}
 
                                 <div class="new-comment">
                                     <div class="comment-textarea">
                                         <textarea data-post_id="{{ post.id }}" class="add-new-comment" title="Comment" placeholder="Add your comment here"></textarea>                                    
-                                    </div>
-                                    <div class="submit-comment-area">  
-                                        <input disabled class="submit-comment" type="submit" value="Comment">  
+                                        <div class="submit-comment-area">  
+                                            <input disabled class="submit-comment" type="submit" value="Comment">  
+                                        </div>
                                     </div>
                                 </div>
             
@@ -145,11 +147,8 @@
                 
                                     <div class="comment-area">
                                         <div class="commenter-info">
-                                            <a  href="{% url 'profile_page' comment.user %}" class="hyper-link-post">
-                                            <span class="commenter hyper-link-username">{{ comment.user.first_name }} {{ comment.user.last_name }}</span><br> 
-                                            </a>
+                                            <a  href="{% url 'profile_page' comment.user %}" class="hyper-link-user">{{ comment.user.first_name }} {{ comment.user.last_name }}</a>
                                             <div class="commented-on">{{ comment.time }}</div>
-        
                                         </div>
                                         <div class="comment">{{ comment.comment }} </div>
                                     
@@ -166,7 +165,7 @@
                     <br>
                    
 
-
+                    
                     {% if posts.number  %}
                     <nav aria-label="..">
                         <ul class="pagination">
@@ -184,7 +183,7 @@
                             {% if page == posts.number %}
                             <li class="page-item active">
 
-                                <a class="page-link" href="?page={{ page }}"> {{page}} <span class="sr-only">(current)</span></a>
+                                <a id="active" class="page-link" href="?page={{ page }}"> {{page}} </a>
                             </li> 
                             {% elif page > posts.number|add:'-3' and page < posts.number|add:'3' %}
                             <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>

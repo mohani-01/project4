@@ -345,7 +345,7 @@ function createNewComment(text, element) {
         const list = element.closest('.post-comments');
     
         // insert the comment at the top of the comment section
-        list.insertBefore(outerdiv, list.children[2]);
+        list.insertBefore(outerdiv, list.children[1]);
 
         // empty the comment textarea
         text.innerHTML = '';
@@ -368,8 +368,8 @@ function createCommentElement(message) {
 
     <div class="comment-area">
         <div class="commenter-info">
-            <a  href="/profile_page/@${message.user}" class="hyper-link-post">
-            <span class="commenter hyper-link-username"> ${message.name} </span><br> 
+            <a  href="/profile_page/@${message.user}" class="hyper-link-user">
+            ${message.name} 
             </a>
             <div class="commented-on"> ${message.time} </div>
         </div>
