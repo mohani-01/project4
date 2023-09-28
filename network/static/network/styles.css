@@ -177,7 +177,7 @@
     
    
     .edit:hover {
-        color: orange;
+        color: rgba(255, 166, 0, 0.75);
         background-color: rgb(255, 242, 219);
         border-color: orange;
         box-shadow: 0px 0px 2px 2px rgb(251, 202, 88);
@@ -334,7 +334,8 @@
         
      
     .comments:hover {
-        cursor: hand;
+        cursor: pointer;
+        /* cursor: hand; */
     }
 
     
@@ -432,6 +433,10 @@
         color: inherit;
     }
     
+    .empty {
+        margin: 20px;
+        color: #919191;
+    }
     
     
     
