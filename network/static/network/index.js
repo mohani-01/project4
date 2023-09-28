@@ -2,21 +2,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // disable the post button
 
 
+
     // continuely check if the post button needs to be disabled or enabled
     if (document.querySelector('#form-post')) {
         document.querySelector('#form-post').addEventListener('click', () => {
             const element = document.querySelector('#form-post');
             newPost(element);
+            resizeTextarea(element.querySelector('#text-post'));
+
         });
     }
 
     if (document.querySelectorAll('.new-comment')) {
 
 
-
         document.querySelectorAll('.new-comment').forEach(div => {
             div.addEventListener('click', (event) => {
-
+                
                 div.querySelector('.add-new-comment').onkeyup = () => {
                     if ( div.querySelector('.add-new-comment').value.trim().length > 0 ) {
                       div.querySelector('.submit-comment').disabled = false;
@@ -28,8 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
 
+            // add new comment
             div.querySelector('.submit-comment').addEventListener('click', () => {
-             createNewComment(div.querySelector('.add-new-comment'), div);
+                createNewComment(div.querySelector('.add-new-comment'), div);
             })
         });
     }
@@ -91,14 +94,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 // the api is implemented in the way that if they user all readly like that button return False 
                 // by removing the user for the post like list and vice versa
                 // it return 1. success message, 2. number of like(s) the post have and 3. boolean expression (if user likes it makes it red else white)
+                const csrf_token = getCookie('csrftoken');
 
                 fetch(`/like/${like.dataset.post_id}`, {
-                    method: 'PUT'
+                    method: 'PUT',
+                    headers : {
+                        "X-CSRFToken": csrf_token,
+                        "Content-Type": "application/json",
+                    }
                 })
                 .then(response => {
                     if  (response.redirected) {
                         window.location.href = response.url;  // or, location.replace(res.url); 
-                        return;
+
                     } else { 
                     return response.json()}
                 })
@@ -233,17 +241,16 @@ function editPage(element, content) {
     // move the cursor to the end text inside textarea
     textarea.setSelectionRange(textarea.value.length, textarea.value.length)
 
-
-
-
     // resize the height of textarea
-    place.querySelectorAll('.edit-content').forEach(textarea => {
-        textarea.style.height = textarea.scrollHeight + 24 + 'px';   
-        textarea.onkeyup = () => {
-            textarea.style.height = 'auto';
-            textarea.style.height = textarea.scrollHeight + 24 + 'px';   
-            }
-    })
+    resizeTextarea(textarea)
+
+    // place.querySelectorAll('.edit-content').forEach(textarea => {
+    //     textarea.style.height = textarea.scrollHeight + 24 + 'px';   
+    //     textarea.onkeyup = () => {
+    //         textarea.style.height = 'auto';
+    //         textarea.style.height = textarea.scrollHeight + 24 + 'px';   
+    //         }
+    // })
     // listen for click [Cancel and Edit]
     place.addEventListener('click', (event) => {
         const edit = event.target;
@@ -322,6 +329,7 @@ function createNewComment(text, element) {
         body : JSON.stringify({
             "comment": text.value
         }),
+
         headers : {
             'X-CSRFToken' : csrf_token,
             'Content-Type' : 'application/json',
@@ -330,6 +338,15 @@ function createNewComment(text, element) {
     .then(response => response.json())
     .then(message => {
         if (message.error) {
+            const error = document.createElement('div');
+            error.className = "error";
+
+            if (element.querySelector(".error")) {
+                element.querySelector(".error").remove()
+            }
+            error.innerText = message.error;
+
+            element.querySelector(".comment-textarea").insertBefore(error, element.querySelector(".comment-textarea").children[1]);
             console.log(message.error)
             return;
         }
@@ -388,4 +405,16 @@ function insertCommentNumber(element, number) {
     const commentNumber = postInfo.querySelector('.comments').querySelector(".numbers");
     commentNumber.innerHTML = number;
     changeNumber(commentNumber);
+}
+
+
+// resize textarea
+function resizeTextarea(textarea) {
+       
+    textarea.style.height = textarea.scrollHeight + 24 + 'px';   
+    textarea.onkeyup = () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 24 + 'px';   
+        }
+    
 }

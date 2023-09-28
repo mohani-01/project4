@@ -136,7 +136,7 @@ def follow(request, user_id):
 
    
 
-@csrf_exempt
+
 @login_required(login_url='/login')
 def like(request, post_id):
 
@@ -150,7 +150,6 @@ def like(request, post_id):
     if post.like.contains(request.user):
         post.like.remove(request.user)
         post.save()
-        
         like = post.like.all().count()
 
         # return message, no of like and boolean expression
