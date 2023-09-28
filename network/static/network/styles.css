@@ -914,12 +914,11 @@ body {
     
     .comment-area {
         width: 100%;
-         /* border: 2px solid greenyellow; */
-         padding: 1rem;
         }
+
     .commenter-info {
-            /* border: 2px solid blueviolet;  */
         font-size: 0.8rem;
+        padding: 1rem .5rem;
     }
     
     .comment {

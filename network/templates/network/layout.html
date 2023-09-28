@@ -21,14 +21,10 @@
         <!-- <script src="{% static 'netoork/react.js' %}" type="text/babel"></script> -->
     </head>
     <body>
-
         <div class="network" >
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="{% url 'index' %}">Network</a>
-          
-
-
-          <ul class="navbar-nav mr-auto nav-bar-network">
+            <ul class="navbar-nav mr-auto nav-bar-network">
             {% if user.is_authenticated %}
                 <li class="nav-item user">
                     <a class="nav-link" href="{% url 'profile_page' user %}"><strong>{{ user.username }}</strong></a>
@@ -55,6 +51,7 @@
           </ul>
         </nav>
         </div>
+
           {% if messages %}
             {% for message in messages %}
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -65,148 +62,137 @@
         {% endif %}
 
         <div class="body">
-            <div class="main">
+        <div class="main">        
+        <div class="middle-everything"> 
+        {% block body %}
+
+        {% endblock %}
         
-        
-                <div class="middle-everything"> 
-                    {% block body %}
-
-                    {% endblock %}
-                   
-                    {% for post in posts %}
-                    <div class="posts">
-                        <div class="username">
-                            <div class="user-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                                </svg>
-                                <i class="bi bi-person-circle"></i>
-                            </div>
-                            
-                            <div class="user-username">
-                                    <a  href="{% url 'profile_page' post.user %}" class="hyper-link-user">{{ post.user.first_name }} {{ post.user.last_name }} </a>
-                                    <div><i>{{ post.date  }}</i> </div>
-                            </div>
-                            {% if user == post.user %}
-                            <button  class="edit"  data-post_id="{{ post.id }}">Edit</button>
-                            {% endif %}
-                        </div>
-                            <div class="post-content">
-            
-                            {{ post.post }}
-                            </div>
-        
-                            <div class="post-info">
-                                <div>
-
-
-                                        <div class="span-like">
-                                            {% if user in post.like.all %}
-                                                <div class="liked heart" data-post_id="{{post.id}}" data-liked="True" class="not-liked like" > </div>
-                                            
-                                            {% else %}
-                                                <div class="not-liked heart" data-post_id="{{post.id}}" data-liked="False" class="not-liked like">  </div>
-                                            {% endif %}
-                                        </div>
-
-                                        &nbsp;<span data-post_id="{{post.id}}" class="like-number numbers"> {{ post.like.all.count }} </span> &nbsp;
-                                        Like
-                                        </div>
-                                
-                                <div class="comments"> <span class="numbers"> {{ post.comment.all.count }}</span>&nbsp;Comments</div>
-
-                            </div>
-
-
-                            <div style="display: none;" class="post-comments">
-                                <h5 class="comment-title">Comments</h5>
-                                
-                                {% if user.is_authenticated %}
-
-                                <div class="new-comment">
-                                    <div class="comment-textarea">
-                                        <textarea data-post_id="{{ post.id }}" class="add-new-comment" title="Comment" placeholder="Add your comment here"></textarea>                                    
-                                        <div class="submit-comment-area">  
-                                            <input disabled class="submit-comment" type="submit" value="Comment">  
-                                        </div>
-                                    </div> 
-                                </div>
-            
-                                {% endif %}
-
-                                {% for comment in post.comment.all %}
-                                <div  class="post-comment">
-    
-                                    <div id="user-post" class="user-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                                        </svg>
-                                        <i class="bi bi-person-circle"></i>
-                                    </div>
-                
-                                    <div class="comment-area">
-                                        <div class="commenter-info">
-                                            <a  href="{% url 'profile_page' comment.user %}" class="hyper-link-user">{{ comment.user.first_name }} {{ comment.user.last_name }}</a>
-                                            <div class="commented-on">{{ comment.time }}</div>
-                                        </div>
-                                        <div class="comment">{{ comment.comment }} </div>
-                                    
-                                    </div>
-                                
-                                </div>
-                                {% empty %}
-                                <div class="empty"><h6>No comments yet.</h6></div>
-                                {% endfor %}
-                            </div>
-        
-                    </div>
-        
-        
-                    {% endfor %}
-                    <br>
-                   
-
-                    
-                    {% if posts.number  %}
-                    <nav aria-label="..">
-                        <ul class="pagination justify-content-end">
-                        {% if posts.has_previous%}
-                        
-                          <li class="page-item ">
-                            <a class="page-link" href="?page={{ posts.previous_page_number }}" tabindex="-1" aria-disabled="true">Previous</a>
-                          </li>
-                        {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                          </li>
-                        {% endif %}
-                        {% for  page in posts.paginator.page_range %}
-                            {% if page == posts.number %}
-                            <li class="page-item active">
-
-                                <a id="active" class="page-link" href="?page={{ page }}"> {{page}} </a>
-                            </li> 
-                            {% elif page > posts.number|add:'-3' and page < posts.number|add:'3' %}
-                            <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
-                            {% endif %}
-                        {% endfor %}
-                        
-                          {% if posts.has_next %}
-                          <li class="page-item ">
-                            <a class="page-link" href="?page={{ posts.next_page_number }}">Next</a>
-                          </li>
-                          {% else %}
-                          <li class="page-item disabled">
-                            <a class="page-link" href="#">Next</a>
-                          </li>
-                          {% endif %}
-                        </ul>
-                      </nav>
-                      {% endif %}
+        {% for post in posts %}
+        <div class="posts">
+            <div class="username">
+                <div class="user-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                    </svg>
+                    <i class="bi bi-person-circle"></i>
                 </div>
+                <div class="user-username">
+                    <a  href="{% url 'profile_page' post.user %}" class="hyper-link-user">{{ post.user.first_name }} {{ post.user.last_name }} </a>
+                    <div><i>{{ post.date  }}</i> </div>
+                </div>
+
+                {% if user == post.user %}
+                <button  class="edit"  data-post_id="{{ post.id }}">Edit</button>
+                {% endif %}
             </div>
+
+            <div class="post-content">
+                {{ post.post }}
+            </div>
+
+            <div class="post-info">
+                <div>
+                    <div class="span-like">
+                        {% if user in post.like.all %}
+                            <div class="liked heart" data-post_id="{{post.id}}" data-liked="True" class="not-liked like" > </div>
+                        
+                        {% else %}
+                            <div class="not-liked heart" data-post_id="{{post.id}}" data-liked="False" class="not-liked like">  </div>
+                        {% endif %}
+                    </div> &nbsp;<span data-post_id="{{post.id}}" class="like-number numbers"> {{ post.like.all.count }} </span> &nbsp;
+                    Like
+                </div>
+
+                <div class="comments"> <span class="numbers"> {{ post.comment.all.count }}</span>&nbsp;Comments</div>
+            </div>
+
+
+            <div style="display: none;" class="post-comments">
+                <h5 class="comment-title">Comments</h5>
+                
+                {% if user.is_authenticated %}
+
+                <div class="new-comment">
+                    <div class="comment-textarea">
+                        <textarea data-post_id="{{ post.id }}" class="add-new-comment" title="Comment" placeholder="Add your comment here"></textarea>                                    
+                        <div class="submit-comment-area">  
+                            <input disabled class="submit-comment" type="submit" value="Comment">  
+                        </div>
+                    </div> 
+                </div>
+
+                {% endif %}
+
+                {% for comment in post.comment.all %}
+                <div  class="post-comment">
+                    <div id="user-post" class="user-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                        </svg>
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+
+                    <div class="comment-area">
+                        <div class="commenter-info">
+                            <a  href="{% url 'profile_page' comment.user %}" class="hyper-link-user">{{ comment.user.first_name }} {{ comment.user.last_name }}</a>
+                            <div class="commented-on">{{ comment.time }}</div>
+                        </div>
+                        <div class="comment">{{ comment.comment }} </div>
+                    
+                    </div>
+                
+                </div>
+                {% empty %}
+                <div class="empty"><h6>No comments yet.</h6></div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+        <br>
+        
+
+        
+        {% if posts.number  %}
+        <nav aria-label="..">
+            <ul class="pagination justify-content-end">
+            {% if posts.has_previous%}
+                <li class="page-item ">
+                <a class="page-link" href="?page={{ posts.previous_page_number }}" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+            {% endif %}
+            
+            {% for  page in posts.paginator.page_range %}
+                {% if page == posts.number %}
+                <li class="page-item active">
+
+                    <a id="active" class="page-link" href="?page={{ page }}"> {{page}} </a>
+                </li> 
+                {% elif page > posts.number|add:'-3' and page < posts.number|add:'3' %}
+                <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                {% endif %}
+            {% endfor %}
+            
+                {% if posts.has_next %}
+                <li class="page-item ">
+                <a class="page-link" href="?page={{ posts.next_page_number }}">Next</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+            </nav>
+            {% endif %}
+        </div>
+        </div>
             
         </div>
     </body>
