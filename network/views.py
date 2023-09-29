@@ -106,7 +106,7 @@ def following(request):
     # posts = p.get_page(page)
 
     user = request.user
-    follows = user.following.all()
+    follows = user.followers.all()
     p = Paginator(Post.objects.filter(user__in=follows).order_by('-date'), 10)
     page = request.GET.get("page")
     posts = p.get_page(page)
