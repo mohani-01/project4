@@ -380,7 +380,7 @@ body {
     border: 1.5px solid rgb(255, 223, 116);
     outline: none;
     width: 100%;
-    
+
     padding: 0.5rem 1rem;
 
     max-height: 400px;
@@ -423,21 +423,18 @@ body {
     box-shadow: none;
 }
 
-
-
 .posts:hover {
     background-color: var(--bg-post-hover);
     box-shadow: inset 0px 0px 2px gold;
     box-shadow: 0px 0px 20px silver;
     border-color: gold;
 }
-
-       
+ 
 .username {
     display: flex;
     position: relative;
-
 }
+
 .hyper-link-user {
     text-decoration: none;
     color: black;
@@ -452,11 +449,8 @@ body {
 
 .edit {
     position: absolute;
-
     z-index: 33;
-
     font-size: 0.9rem;
-
     font-weight: 500;
     color: white;
     background-color: var(--bg-button);
@@ -515,7 +509,6 @@ body {
     color: white;
     background-color: var(--bg-button);
     border: 1px solid silver;
-
 }
 
 .new-edit:hover {
@@ -530,7 +523,6 @@ body {
 
     border: 1px solid orange;
     background-color: rgb(255, 217, 159);
-
     font-family: 'Gabarito', cursive;
 
 }
@@ -547,13 +539,11 @@ body {
     text-shadow: 1px 1px  white;
 }
 
-
 .post-info > div:hover {
     background-color: var(--bg-button);
     color: white;
     text-shadow: 2px 1px  black;
 }
-
 
 .post-comments {
     margin: 0 0.5rem 1rem 1rem;
@@ -561,7 +551,6 @@ body {
     border-left: 0.2rem solid orange;
     border-bottom: 0.2rem solid orangered;
     border-bottom-left-radius: .5rem;
-
 }
 
 .comment-title {
@@ -569,10 +558,11 @@ body {
     padding: .5rem;
     border-bottom: 1.5px solid black;
 }  
-.comment-textarea {
 
+.comment-textarea {
    padding: 0.25rem 0.5rem;
 }
+
 .add-new-comment {
     width: 100%;
     min-height: 4rem;
@@ -588,7 +578,6 @@ body {
 }
 
 .submit-comment-area {
-
     display: flex;
     justify-content: end;
 }
@@ -604,7 +593,6 @@ body {
     margin: 0.5rem;
     border: none;
     border-radius: 3px;
-
 }
 
 .submit-comment:hover {
@@ -644,17 +632,13 @@ body {
     width: 100%;
 }
 
-
 .commenter-info > .hyper-link-user  {
     font-size: 1rem;
-
 }
-
 
 .comment {
     padding: .4rem 0;
 }
-
 
 .commented-on {
     font-size: 0.9rem;
@@ -667,14 +651,10 @@ body {
     margin-bottom: 2rem;
 }
 
-
-
 #profile-container {
     position: relative;
     width: inherit;
-
     height: 14rem;
-    /* border: 2px double dodgerblue; */
 }    
 
 #profile-background {
@@ -683,25 +663,23 @@ body {
     width: 100%;
     height: 10rem;
     border: .2rem solid orange;
-    background-image: linear-gradient(to bottom right, rgba(1, 81, 146, 0.676), rgba(0, 179, 255, 0.693) );
-
+    background-image: linear-gradient(to bottom right, rgba(1, 81, 146, 0.676), rgba(0, 179, 255, 0.693));
 }
 
-    #profile-picture {
-        position: absolute;
-        top: 6.5rem;
-        left: 2rem;
-    
-        width: 7rem;
-        height: 7rem;
+#profile-picture {
+    position: absolute;
+    top: 6.5rem;
+    left: 2rem;
 
-        border: .2rem solid rgba(255, 166, 0, 0.993);
-        border-radius: 50%;
-        background-color: rgb(84, 141, 165);
-        color: white;
-        padding: 10px;
-        z-index: 23;
-    }
+    width: 7rem;
+    height: 7rem;
+    border: .2rem solid rgba(255, 166, 0, 0.993);
+    border-radius: 50%;
+    background-color: rgb(84, 141, 165);
+    color: white;
+    padding: 10px;
+    z-index: 23;
+}
  
 #profile-picture > svg {
     width: 100%;
@@ -720,7 +698,6 @@ body {
     padding: 0.25rem 1.5rem;
     border: 1px solid orangered;
     border-radius: 4rem;
-
 }
 
 
@@ -752,7 +729,6 @@ body {
 
 #profile-info > div:hover {
     border-bottom: 2px solid orangered;
-
     color: rgb(255, 8, 0);
     font-weight: 550;
 
@@ -766,28 +742,24 @@ body {
     background-color: rgb(255, 241, 236); 
 }
 
-
 ::-webkit-scrollbar {
     width: 10px;
 }
   
-/* Track */
+
 ::-webkit-scrollbar-track {
     background: #f1f1f1; 
 }
    
-/* Handle */
+
 ::-webkit-scrollbar-thumb {
     background: gold; 
 }
   
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: rgb(244, 207, 0); 
-    
+    background: rgb(244, 207, 0);  
 }
 
- ::-webkit-scrollbar-track-piece {
+::-webkit-scrollbar-track-piece {
     background: rgb(255, 252, 234); 
-
  }

@@ -101,13 +101,15 @@ def profile_page(request, username):
 
 @login_required(login_url="/login")
 def following(request):
-    # p = Paginator(user.poster.all().order_by('-date'), 10)
-    # page = request.GET.get("page")
-    # posts = p.get_page(page)
+    
 
     user = request.user
     follows = user.followers.all()
+
+    # paginate the post
     p = Paginator(Post.objects.filter(user__in=follows).order_by('-date'), 10)
+
+    # get the page number
     page = request.GET.get("page")
     posts = p.get_page(page)
 
@@ -179,6 +181,7 @@ def comment(request, post_id):
 
     if not data.get("comment"):
         return JsonResponse({"error" : "Cannot find a comment"}, status=422)
+        
     comment = data["comment"].strip()
     comment = Comment(user=user, comment=comment)
     comment.save()
