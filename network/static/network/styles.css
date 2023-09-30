@@ -1,10 +1,19 @@
-body, * {
+/* body, * {
     box-sizing: border-box;
+} */
+
+:root {
+    --bg-button: rgba(255, 166, 0, 0.75);
+    --bg-button-hover: rgb(255, 166, 0);
+    --bg-post-hover: rgb(255, 252, 245);
+     
 }
 
 body {
     margin: 0;
-    position: relative;
+    font-family: 'Gabarito', cursive;   
+
+
 }
 
 .middle-everything {
@@ -77,30 +86,40 @@ body {
 
     .pagination {
         margin-right: .5rem;
+
     }
 
 
     .page-link {
         background-color: white;
-        color: orange;
+        color: var(--bg-button-hover);
+        border-color: var(--bg-post-hover) !important;
     }
+    
     .active > #active {
-        background-color: orange;
-        border-color: gold;
+        background-color: var(--bg-button);
+        border-color: var(--bg-post-hover);
+    }
+
+    .active > #active {
+        background-color: var(--bg-button-hover);
+
     }
 
     .page-link:hover {
-        color: gold;
+        background-color: rgb(255, 243, 232);
+        color: var(--bg-button-hover);
     }
     
     .page-link:focus {
-        background-color: orange;
+        background-color: var(--bg-button-hover);
         color: white;
+        box-shadow: none;
     } 
 
     .empty {
         margin: 20px;
-        color: #919191;
+        color: silver;
     }
     
     
@@ -117,21 +136,40 @@ body {
         width: 100%;
     }
 
-    .nav-bar-network {
-        display: flex;
-        width: max-content;
-        justify-content: space-between;
-       flex-direction: row;
-       width: 100%; 
-       min-width: 300px;
-        font-style: gold;
-        position: sti;
-        z-index: 333;
+    .navbar > a {
+        color: orange !important;
+        text-shadow: 2px 2px black;
+        font-size: 1.6rem;
     }
 
     .nav-bar-network > li > a {
         color: orangered !important;
     }
+
+    .nav-bar-network {
+        display: flex;
+        width: max-content;
+        justify-content: space-between;
+       flex-direction: row;
+        width: 100%; 
+        min-width: 300px;
+
+        z-index: 333;
+    }
+    .nav-bar-network > li {
+        border: 2px solid transparent;
+        /* padding: 0 .2rem; */
+        /* width: 100%; */
+        /* overflow-x: unset; */
+        /* white-space: wrap; */
+        
+    }
+    .nav-bar-network > li:hover {
+        border-color: orange !important;
+        border-radius: .5rem;
+        padding: 0 .5rem;
+    }
+
 
    
     
@@ -141,6 +179,7 @@ body {
     .main {
         display: flex;
         justify-content: center;
+        align-items: center;
 
         min-width: 310px;
         padding: 5px;
@@ -156,7 +195,7 @@ body {
         /* border-radius: 10px; */
     }
     .new-post:hover {
-        background-color: rgb(255, 250, 240);
+        background-color: var(--bg-post-hover);
     }
     
     .user-icon {
@@ -179,10 +218,10 @@ body {
   
     .posts {
         border: 0.1rem solid rgba(255, 217, 0, 0.8);
-        /* border-radius: 0.5rem; */
+
         padding: 0.5rem;
         margin: .5rem .2rem;
-        background-color: rgb(255, 252, 246);
+
     }
 
     
@@ -207,12 +246,9 @@ body {
     
    
   
-    .edit-buttons {
-        margin: 0.25rem;
-    }
     
     .edit-buttons > button {
-        margin: 0.2rem 0.1rem;
+        margin: 0.2rem 0.2rem;
         padding: 0.2rem 1rem;
         border-radius: 5px;
     }
@@ -221,14 +257,12 @@ body {
     .post-content {
         padding: 1rem;
         font-family: 'Lato', sans-serif;
-
         text-align: justify;
     }
     
     
     
    
-    
 
       
      
@@ -238,6 +272,55 @@ body {
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
+    .network { 
+        justify-content: center;
+        position: sticky;
+        z-index: 333;
+        top: 0;
+        right: 0;
+        margin: 0;
+        width: auto;
+        margin: auto;
+        min-width: 600px;
+        max-width: 650px;
+        /* color: orangered !important; */
+    }
+    .navbar > a {
+        color: orange !important;
+        text-shadow: 2px 2px black;
+        font-size: 1.6rem;
+    }
+
+    .nav-bar-network > li > a {
+        color: orangered !important;
+        /* margin: 0 .5rem; */
+        font-size: 1.1rem;
+    }
+    .nav-bar-network > li {
+        border: 2px solid transparent;
+        padding: 0 .5rem;
+    }
+    .nav-bar-network > li:hover {
+        border-color: orange !important;
+        border-radius: .5rem;
+    }
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        /* border: 2px solid coral; */
+
+    }   
+
+    .navbar > * {
+        margin: 0 !important;
+    }
+    .nav-bar-network {
+        display: grid;
+        
+        grid-template-columns: auto auto auto auto ;
+        column-gap: 1rem;
+       
+    }
 
     .main {
         display: flex;
@@ -253,19 +336,20 @@ body {
     .middle-everything {
 
         max-width: 650px;
-        border: 5px solid black;
-        padding: 1rem;
+        padding: .5rem;
+        border: .2rem solid #f2f2f2;
+        border-top: none;
     }
 
     .new-post {
         display: flex;
         padding: 1rem;
-        border: 3px solid rgb(255, 170, 0);
         margin: 1rem 0.5rem;
+        border: 3px solid rgb(255, 170, 0);
 
     }
     .new-post:hover {
-        background-color: rgb(255, 252, 241);
+        background-color: var(--bg-post-hover);
     }
     
     .user-icon {
@@ -287,9 +371,9 @@ body {
     
     .posts {
         border: 0.2rem solid rgba(255, 217, 0, 0.8);
-        padding: 0.4rem;
+        padding: 1rem;
         margin: 0.3rem;
-        font-family: 'Gabarito', cursive;   
+
     } 
     
     .user-username {
@@ -309,16 +393,9 @@ body {
     
     
     
-    .edit-buttons {
-        margin: 0.5rem;
-    }
     
-    .edit-buttons > button {
-        margin: 0.2rem .3rem;
-        padding: 0.2rem 1rem;
-        border-radius: 5px;
-    }
-  
+    
+    
     
     .user-image {
         width: 4rem;
@@ -326,7 +403,7 @@ body {
     }
     
     .post-content {
-        padding: .5rem 2rem 1rem 2rem;
+        padding: 2rem;
         text-align: justify;
         font-family: 'Lato', sans-serif;
         font-size: 18px;
@@ -342,7 +419,7 @@ body {
     
 }
 
-  .user-icon {
+.user-icon {
         display: flex;
         justify-content: center;
   }
@@ -368,6 +445,7 @@ body {
     max-height: 400px;
     resize: none;
     overflow: auto;
+    cursor: auto;
 }
 
 #text-post:hover {
@@ -386,7 +464,7 @@ body {
 
 #input-post {
     width: 4rem;
-    background-color: rgba(255, 166, 1, 0.75);
+    background-color: var(--bg-button);
     color: white;
     border: none;
     padding: 0.3rem;
@@ -394,7 +472,7 @@ body {
 }
 
 #input-post:hover {
-    background-color: rgb(244, 158, 0);
+    background-color: var(--bg-button-hover);
     box-shadow: 0px 0px 10px rgba(110, 110, 110, 0.353);
 }
 
@@ -407,7 +485,7 @@ body {
 
 
 .posts:hover {
-    background-color: rgb(255, 252, 245);
+    background-color: var(--bg-post-hover);
     box-shadow: inset 0px 0px 2px gold;
     box-shadow: 0px 0px 20px silver;
     border-color: gold;
@@ -440,16 +518,16 @@ body {
 
     font-weight: 500;
     color: white;
-    background-color: rgba(255, 166, 0, 0.75);
+    background-color: var(--bg-button);
     border: 1px solid orange;
     border-radius: 3px;
 }
 
 .edit:hover {
-    color: rgb(255, 166, 0);
-    background-color: rgb(255, 242, 219);
+    color: var(--bg-button-hover);
+    background-color: white;
 
-    box-shadow: 0px 0px 2px 2px rgb(251, 202, 88);
+    box-shadow: 0px 0px 2px 2px rgb(255, 204, 108);
     border-radius: 4px;
 }
 
@@ -462,13 +540,21 @@ body {
     border-radius: .5rem;
     resize: none;
     overflow: auto;
+    cursor: auto;
 }
 
 .edit-buttons {
     display: flex;
     flex-wrap: nowrap;
     justify-content: end;
+    margin: 0.25rem;
 
+}
+
+.edit-buttons > button {
+    margin: 0.2rem .2rem;
+    padding: 0.2rem 1rem;
+    border-radius: 5px;
 }
 
   
@@ -480,19 +566,19 @@ body {
 
 .stop-edit:hover {
     color: white;
-    background-color: silver;
+    background-color: rgb(130, 130, 130);
     box-shadow: 2px 2px 10px silver;
 }
 
 .new-edit {
     color: white;
-    background-color: rgba(255, 166, 0, 0.75);
+    background-color: var(--bg-button);
     border: 1px solid silver;
 
 }
 
 .new-edit:hover {
-    background-color: rgb(255, 166, 0);
+    background-color: var(--bg-button-hover);
     box-shadow: 2px 2px 10px silver;
 }
 
@@ -502,40 +588,44 @@ body {
     justify-content: space-evenly;
 
     border: 1px solid orange;
-    background-color: rgb(250, 234, 210);
+    background-color: rgb(255, 217, 159);
+
     font-family: 'Gabarito', cursive;
-    margin: 0 .5rem ;
-}
-
-.post-info:hover {
-    background-color: rgb(255, 233, 201);
 
 }
-.post-info> div {
 
+
+.post-info > div {
     display: flex;
-    
     justify-content: center;
     align-items: center ;
     text-align: center;
     border: 2px solid transparent;
-    color: rgb(0, 0, 42);
+    color: black;
     width: 100%;
+    text-shadow: 1px 1px  white;
 }
+
+
 .post-info > div:hover {
-    background-color: rgb(247, 214, 165);
+    background-color: var(--bg-button);
+    color: white;
+    text-shadow: 2px 1px  black;
 }
+
+
 .post-comments {
     margin: 0 0.5rem 1rem 1rem;
-    padding: 0.5rem 0.3rem;
+    padding: 0.5rem 0.5rem;
     border-left: 0.2rem solid orange;
     border-bottom: 0.2rem solid orangered;
-    border-bottom-left-radius: 1rem;
+    border-bottom-left-radius: .5rem;
 
 }
 
 .comment-title {
     margin-bottom: .5rem;
+    padding: .5rem;
     border-bottom: 1.5px solid black;
 }  
 .comment-textarea {
@@ -543,11 +633,13 @@ body {
    padding: 0.25rem 0.5rem;
 }
 .add-new-comment {
-
     width: 100%;
+    min-height: 4rem;
     height: 4rem;
     padding: 0.5rem;
     outline: none;
+    resize: none;
+    max-height: 15rem;
 }
 
 .add-new-comment:hover {
@@ -564,13 +656,13 @@ body {
 
 .submit-comment {
     border-radius: .5rem;
-    padding: 0.3rem 0.5rem;
-    font-family: sans-serif;
+    padding: 0.3rem 1rem;
+
     color: white;
     background-color: rgba(255, 166, 0, 0.75);
     margin: 0.5rem;
     border: none;
-    border-radius: 2px;
+    border-radius: 3px;
 
 }
 
@@ -597,8 +689,8 @@ body {
 }
 
 .post-comment:hover {
-    background-color: rgb(254, 242, 214);
-    box-shadow: 0px 0px 10px 5px rgb(255, 242, 212);
+    border-color: var(--bg-button-hover);
+    box-shadow: 0px 0px 10px 5px rgb(189, 189, 189);
 }
 
 .post-comment > .user-icon, .post-comment > .comment-area {
@@ -693,8 +785,6 @@ body {
 }
 
 
-
-
 .follow-button:hover {
     background-color: white;
     color: orange;
@@ -703,19 +793,24 @@ body {
 
 #profile-info {
     display: flex;
-    margin: 1rem;
+    /* margin: 1rem; */
     height: max-content;
     justify-content: space-between;
     align-items: flex-end;
-
+    margin-bottom: 1rem;
+    
 }
 
 #profile-info > div {
     border: 2px solid transparent;
+    padding: 1rem 0;
+    
     text-align: center;
-    padding: 1rem;
-    font-weight: 550;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 500;
     width: 100%;
+    cursor: pointer;
 }
 
 #profile-info > div:hover {
@@ -725,3 +820,40 @@ body {
     font-weight: 550;
 
 }
+
+.error {
+    margin: .5rem 0;
+    padding: .5rem;
+    border-left: 2px solid orangered;
+    color: red;
+    background-color: rgb(255, 241, 236);
+    
+}
+
+
+::-webkit-scrollbar {
+    width: 10px;
+
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: gold; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(244, 207, 0); 
+
+
+ }
+
+ ::-webkit-scrollbar-track-piece {
+    background: rgb(255, 252, 234); 
+
+ }

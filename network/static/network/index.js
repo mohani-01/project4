@@ -1,35 +1,47 @@
 document.addEventListener('DOMContentLoaded', () => {
     // disable the post button
+    
 
-
-
-    // continuely check if the post button needs to be disabled or enabled
+    // for users who logged in
     if (document.querySelector('#form-post')) {
+        
+        // resize the post area
+        resizeTextarea(document.querySelector('#text-post'));
+        
+        // continuely check if the post button needs to be disabled or enabled
         document.querySelector('#form-post').addEventListener('click', () => {
             const element = document.querySelector('#form-post');
             newPost(element);
-            resizeTextarea(element.querySelector('#text-post'));
 
         });
+
+
+        // for all comment area
+        
+      
+        
     }
-
-    if (document.querySelectorAll('.new-comment')) {
-
+    
+    if (document.querySelector('.new-comment')) {
 
         document.querySelectorAll('.new-comment').forEach(div => {
-            div.addEventListener('click', (event) => {
+
+                div.addEventListener('click', () => {
                 
                 div.querySelector('.add-new-comment').onkeyup = () => {
                     if ( div.querySelector('.add-new-comment').value.trim().length > 0 ) {
-                      div.querySelector('.submit-comment').disabled = false;
-             
+                        div.querySelector('.submit-comment').disabled = false;
+                
                     }else {
-                     div.querySelector('.submit-comment').disabled = true;
-             
+                        div.querySelector('.submit-comment').disabled = true;
+                
                     }
                 }
             })
-
+            // resize comment area
+            resizeTextarea(div.querySelector('.add-new-comment'));
+    
+    
             // add new comment
             div.querySelector('.submit-comment').addEventListener('click', () => {
                 createNewComment(div.querySelector('.add-new-comment'), div);
@@ -38,11 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+   
     // change the no of views, comment and like (love ) to 1000 => 1K, 1000000 => 1M
     changeNumber(document.getElementsByClassName('numbers'));
-
-    
-
 
     // open and close the comment section as the user click the comment part of the post
     document.querySelectorAll('.comments').forEach(button => {
@@ -53,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let posts = comment.closest('.posts');
             let divComment = posts.getElementsByClassName('post-comments')[0];
             if (divComment.style.display === 'none') {
+
                 divComment.style.display = 'block';
             } else {
                 divComment.style.display = 'none';
@@ -238,19 +249,14 @@ function editPage(element, content) {
     place.appendChild(div);
     
     textarea.focus();
+
     // move the cursor to the end text inside textarea
     textarea.setSelectionRange(textarea.value.length, textarea.value.length)
 
     // resize the height of textarea
     resizeTextarea(textarea)
 
-    // place.querySelectorAll('.edit-content').forEach(textarea => {
-    //     textarea.style.height = textarea.scrollHeight + 24 + 'px';   
-    //     textarea.onkeyup = () => {
-    //         textarea.style.height = 'auto';
-    //         textarea.style.height = textarea.scrollHeight + 24 + 'px';   
-    //         }
-    // })
+    
     // listen for click [Cancel and Edit]
     place.addEventListener('click', (event) => {
         const edit = event.target;
@@ -267,8 +273,8 @@ function editPage(element, content) {
             // get the csrf_token         
             const csrf_token = getCookie('csrftoken');
 
-            // fetch the data
-            fetch(`/editpost/${element.dataset.post_id}`, {
+            // fetch the data ${element.dataset.post_id}
+            fetch(`/editpost/3`, {
                 method: "PUT", 
                 body: JSON.stringify({
                     "post": newContent,
@@ -283,9 +289,13 @@ function editPage(element, content) {
             .then(message => {  
                 if (message.error) {
                     //show the error to the user
-                    console.log(message.error);
                     
-                    // needs to done
+                    const error = getError(place, message.error)
+
+                    place.insertBefore(error, place.children[1])
+
+                    
+                 // needs to done
                 } else {
                     console.log(message)
                     place.innerHTML = newContent;
@@ -338,16 +348,10 @@ function createNewComment(text, element) {
     .then(response => response.json())
     .then(message => {
         if (message.error) {
-            const error = document.createElement('div');
-            error.className = "error";
 
-            if (element.querySelector(".error")) {
-                element.querySelector(".error").remove()
-            }
-            error.innerText = message.error;
+            const error = getError(element, message.error)
 
             element.querySelector(".comment-textarea").insertBefore(error, element.querySelector(".comment-textarea").children[1]);
-            console.log(message.error)
             return;
         }
 
@@ -410,11 +414,26 @@ function insertCommentNumber(element, number) {
 
 // resize textarea
 function resizeTextarea(textarea) {
-       
+
+
     textarea.style.height = textarea.scrollHeight + 24 + 'px';   
-    textarea.onkeyup = () => {
+    textarea.oninput = () => {
+        console.log(textarea);
         textarea.style.height = 'auto';
         textarea.style.height = textarea.scrollHeight + 24 + 'px';   
         }
     
+}
+
+
+
+function getError(element, message) {
+    const error = document.createElement('div');
+    error.className = "error";
+
+    if (element.querySelector(".error")) {
+        element.querySelector(".error").remove()
+    }
+    error.innerHTML = message;
+    return error
 }

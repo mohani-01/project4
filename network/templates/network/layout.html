@@ -11,8 +11,7 @@
         <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Gabarito&family=Lato&display=swap" rel="stylesheet">
-
+        <link href="https://fonts.googleapis.com/css2?family=Gabarito&family=Lato&family=Oswald:wght@500&display=swap" rel="stylesheet">
 
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
@@ -160,8 +159,8 @@
         
 
         
-        {% if posts.number  %}
-        <div >{{ posts.number}}</div>
+        <div >{{ posts.paginator.page_range }}</div>
+        {% if posts.paginator.count > 1  %}
         <nav aria-label="..">
             <ul class="pagination justify-content-end">
             {% if posts.has_previous%}
