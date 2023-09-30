@@ -150,17 +150,15 @@
                 
                 </div>
                 {% empty %}
-                <div class="empty"><h6>No comments yet.</h6></div>
+                <div class="empty"><h5>No comments yet.</h5></div>
                 {% endfor %}
             </div>
         </div>
         {% endfor %}
         <br>
-        
+               
 
-        
-        <div >{{ posts.paginator.page_range }}</div>
-        {% if posts.paginator.count > 1  %}
+        {% if posts.paginator.num_pages > 1  %}
         <nav aria-label="..">
             <ul class="pagination justify-content-end">
             {% if posts.has_previous%}

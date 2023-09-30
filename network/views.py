@@ -146,6 +146,8 @@ def like(request, post_id):
     # Get the post
     post = Post.objects.get(pk=post_id)
     
+    if not post:
+        return JsonResponse({"error": "Post not found!"}, status=404)
     # remove the user from the like list
     if post.like.contains(request.user):
         post.like.remove(request.user)
