@@ -40,6 +40,7 @@ body {
         background-color: white;
         position: absolute;
         transform: rotate(45deg);
+        transition: background-color 1s ease;
     }
 
     .heart::before {
@@ -210,6 +211,8 @@ body {
 
         padding: 0.5rem;
         margin: .5rem .2rem;
+        transition: background-color, box-shadow, border-color 200ms linear;
+
     }
 
     
@@ -263,12 +266,12 @@ body {
 
     .nav-bar-network > li > a {
         color: orangered !important;
-        /* margin: 0 .5rem; */
         font-size: 1.1rem;
     }
     .nav-bar-network > li {
         border: 2px solid transparent;
         padding: 0 .5rem;
+        transition: border-radius, 300ms ease-in;
     }
     .nav-bar-network > li:hover {
         border-color: orange !important;
@@ -335,7 +338,10 @@ body {
         border: 0.2rem solid rgba(255, 217, 0, 0.8);
         padding: 1rem;
         margin: 0.3rem;
+        transition: background-color, box-shadow, border-color 200ms linear;
     } 
+
+    
     
     .user-username {
         width: 100%;
@@ -387,14 +393,13 @@ body {
     resize: none;
     overflow: auto;
     cursor: auto;
+    transition: border-color, 500ms ease-in-out;
 }
 
-#text-post:hover {
-    outline: rgba(255, 166, 0, 0.75) solid 1.5px;
-}
+
 
 #text-post:hover {
-    outline-color: rgb(255, 166, 0);
+    border-color: rgb(255, 166, 0);
 }
 
 #submit-post {
@@ -429,6 +434,8 @@ body {
     box-shadow: 0px 0px 20px silver;
     border-color: gold;
 }
+
+
  
 .username {
     display: flex;
@@ -440,6 +447,7 @@ body {
     color: black;
     font-weight: 500;
     font-size: 1.2rem;
+    transition: text-decoration 1s ease-in;
 }
 
 .hyper-link-user:hover {
@@ -456,6 +464,7 @@ body {
     background-color: var(--bg-button);
     border: 1px solid orange;
     border-radius: 3px;
+    transition: background-color, color, box-shadow, border-radius, 250ms ease-in-out;
 }
 
 .edit:hover {
@@ -537,6 +546,7 @@ body {
     color: black;
     width: 100%;
     text-shadow: 1px 1px  white;
+    transition: background-color,text-shadow, color, 300ms ease-out;
 }
 
 .post-info > div:hover {
@@ -590,7 +600,7 @@ body {
 
     color: white;
     background-color: rgba(255, 166, 0, 0.75);
-    margin: 0.5rem;
+    margin: 0.5rem 0;
     border: none;
     border-radius: 3px;
 }
@@ -615,6 +625,7 @@ body {
 
     background-color: inherit;
     padding: .5rem;
+    transition: border-color, box-shadow 500ms ease-out;
 }
 
 .post-comment:hover {
@@ -634,6 +645,8 @@ body {
 
 .commenter-info > .hyper-link-user  {
     font-size: 1rem;
+    transition: text-decoration 1s ease-in;
+
 }
 
 .comment {
