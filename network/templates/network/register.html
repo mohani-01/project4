@@ -2,10 +2,12 @@
 
 {% block body %}
 
-    <h2>Register</h2>
+<div class="login">
+
+    <h2 class="login-title">Register</h2>
 
     {% if message %}
-        <div>{{ message }}</div>
+        <div class="error">{{ message }}</div>
     {% endif %}
 
     <form action="{% url 'register' %}" method="post" class="container">
@@ -29,9 +31,12 @@
         <div class="form-group">
             <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
         </div>
-        <input class="btn btn-primary" type="submit" value="Register"><br>
-        Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+        <input class="btn btn-primary submit-login" type="submit" value="Register"><br>
+       <div class="login-redirect">
+        Already have an account? <a  href="{% url 'login' %}">Log In here.</a>
+    </div>
     </form>
+</div>
 
 
 {% endblock %}

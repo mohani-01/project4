@@ -11,7 +11,8 @@
 
 body {
     margin: 0;
-    font-family: 'Gabarito', cursive;   
+    font-family: 'Gabarito', cursive;  
+        background: rgb(255, 255, 250); 
 
 
 }
@@ -202,9 +203,7 @@ body {
         width: 100%;
         padding: 0.25rem 0px 0px 0.25rem;
     }
-    
-  
-    
+      
   
     .posts {
         border: 0.1rem solid rgba(255, 217, 0, 0.8);
@@ -212,9 +211,7 @@ body {
         padding: 0.5rem;
         margin: .5rem .2rem;
         transition: background-color, box-shadow, border-color 200ms linear;
-
     }
-
     
     .user-username {
         width: 100%;
@@ -237,7 +234,7 @@ body {
     .post-content {
         padding: 1rem;
         font-family: 'Lato', sans-serif;
-        text-align: justify;
+        /* text-align: justify; */
     }  
    
 }
@@ -357,7 +354,7 @@ body {
     }
 
     .post-content {
-        padding: 2rem;
+        padding: 1rem 2rem 2rem 2rem;
         text-align: justify;
         font-family: 'Lato', sans-serif;
         font-size: 18px;
@@ -776,3 +773,67 @@ body {
 ::-webkit-scrollbar-track-piece {
     background: rgb(255, 252, 234); 
  }
+
+
+
+ .login {
+    width: auto;
+    max-width: 500px;
+    margin: 2rem auto;
+    min-width: 300px;
+    border: 4px double var(--bg-button-hover);
+    padding: 2rem .5rem;
+    
+ }
+
+ .login > .error {
+    padding: .5rem;
+    margin: 1rem;
+ }
+
+ .login-title {
+    text-align: center;
+    margin-bottom: 2rem;
+ }
+
+
+ .submit-login {
+    width: 100%;
+    background-color: var(--bg-button) ;
+    border-color: var(--bg-button-hover);
+ }
+
+ .submit-login:hover {
+    background-color: var(--bg-button-hover);
+    border-color: inherit;
+ }
+
+ .submit-login:focus {
+    background-color: var(--bg-button-hover) !important;
+    border-color: white !important;
+    box-shadow: 0px 0px 3px 2px var(--bg-button)  !important;
+ }
+
+ .login-redirect {
+     padding: 1rem 0;
+ }
+ 
+ .login-redirect > a {
+
+    color: var(--bg-button-hover);
+ }
+
+
+.form-control:focus {
+    box-shadow: 0px 0px 2px 2px var(--bg-button) !important;
+    border: 2px solid var(--bg-post-hover) !important;
+}
+
+
+.no_post {
+    width: max-content;
+    padding: 3px 1rem;
+    margin: auto;
+    color: var(--bg-button-hover);
+    border-left: .2rem solid var(--bg-button-hover);
+}

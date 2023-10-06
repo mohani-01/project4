@@ -230,7 +230,7 @@ function editPage(element, content) {
     div.append(button);
 
     const textarea = document.createElement('textarea');
-    textarea.innerHTML = content.trim();
+    textarea.innerHTML = content.replaceAll('<br>', '\n').trim();
     textarea.className = 'edit-content';
     
     // make the post content element empty
@@ -291,7 +291,7 @@ function editPage(element, content) {
                  // needs to done
                 } else {
 
-                    place.innerHTML = newContent;
+                    place.innerHTML = newContent.replaceAll('\n', '<br>');
                     element.style.display = 'block';
                 }
 
@@ -327,6 +327,7 @@ function getCookie(name) {
 function createNewComment(text, element) {
 
     const csrf_token = getCookie('csrftoken');
+    // 
     fetch(`/comment/${text.dataset.post_id}`, {
         method : 'POST', 
         body : JSON.stringify({
@@ -348,8 +349,15 @@ function createNewComment(text, element) {
             return;
         }
 
+
+
         insertCommentNumber(element, message.number);
-        
+
+
+        // remove error message from comment area
+        if (element.querySelector('.error')) {
+            element.querySelector('.error').remove();
+        }
         // create a new element for new comment
         const outerdiv = document.createElement('div');
         outerdiv.className = "post-comment";
@@ -360,7 +368,9 @@ function createNewComment(text, element) {
         
         // insert the comment at the top of the comment section
         list.insertBefore(outerdiv, list.children[2]);
-
+        if (list.querySelector('.empty')) {
+            list.querySelector('.empty').remove()
+        }
         // empty the comment textarea
         text.innerHTML = '';
         text.value = '';

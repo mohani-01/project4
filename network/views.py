@@ -33,6 +33,7 @@ def addpost(request):
 
         if form.is_valid():
             post = form.cleaned_data["post"]
+            print(post)
             Post.objects.create(user=request.user, post=post)
 
         return HttpResponseRedirect(reverse('index'))
@@ -59,10 +60,13 @@ def editpost(request, post_id):
     if post.user != user:
         return JsonResponse({"error": "Your are not authorized to edit this post."}, status=401)
 
+
     data = json.loads(request.body)
     if not data.get("post"):
         return JsonResponse({"error": "Cannot find edit field."}, status=422)
-    
+    print(data["post"])
+    print(data["post"].strip())
+
     post.post = data["post"].strip()
     post.save()
 
@@ -106,6 +110,8 @@ def following(request):
     user = request.user
     follows = user.followers.all()
 
+    does_follow = follows.count()
+    print(does_follow)
     # paginate the post
     p = Paginator(Post.objects.filter(user__in=follows).order_by('-date'), 10)
 
@@ -116,6 +122,8 @@ def following(request):
     return render(request, "network/index.html", {
         "new_post": NewPost(),
         "posts": posts,
+        "user_follow": True,
+        "does_follow": does_follow
     })
 
     
