@@ -3,9 +3,9 @@ from django.db import models
 
 
 class User(AbstractUser):
-    following = models.ManyToManyField("self", blank=True)
-    followers = models.ManyToManyField("self", blank=True)
-
+    followers = models.ManyToManyField("self", blank=True, symmetrical=False, related_name="following")
+    
+    
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='commenter')
     comment = models.TextField()

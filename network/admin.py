@@ -8,6 +8,10 @@ class PostAdmin(admin.ModelAdmin):
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ("user", "comment", "time")
+
+class UserAdmin(admin.ModelAdmin):
+    filter_horizontal = ("followers",)
+
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Post, PostAdmin)
-admin.site.register(User)
+admin.site.register(User, UserAdmin)

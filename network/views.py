@@ -71,7 +71,7 @@ def editpost(request, post_id):
 
 
 def profile_page(request, username):
-    print(request)
+
     user = User.objects.filter(username=username).first()
    
    
@@ -93,9 +93,9 @@ def profile_page(request, username):
 @login_required(login_url="/login")
 def following(request):
     
-
     user = request.user
-    follows = user.followers.all()
+
+    follows = user.following.all()
 
     does_follow = follows.count()
 
@@ -119,6 +119,12 @@ def following(request):
 def follow(request, user_id):
    
     user = User.objects.get(pk=user_id)
+    print(user, "To be followed")
+
+    
+
+    # print(follower, "going to follow")
+    # print(follower.followers.all(), follower.following.all(), "going to follow")
 
     if user == request.user:
         messages.error(request,"Your Can't follow Yourself!")
@@ -126,8 +132,10 @@ def follow(request, user_id):
 
     if user.followers.contains(request.user):
         user.followers.remove(request.user)
+
     else:
         user.followers.add(request.user)
+
 
     return HttpResponseRedirect(reverse('profile_page', args=(user.username,)))
 
