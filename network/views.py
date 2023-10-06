@@ -33,52 +33,40 @@ def addpost(request):
 
         if form.is_valid():
             post = form.cleaned_data["post"]
-            print(post)
+
             Post.objects.create(user=request.user, post=post)
 
         return HttpResponseRedirect(reverse('index'))
 
-    elif request.method == "PUT":
-        user = request.user
-        data = json.loads(request.body)
-        print(data)
-        return HttpResponseRedirect(reverse('index'))
-
+    
 
 @login_required(login_url="/login")
 def editpost(request, post_id):
 
     if request.method != "PUT":
-        return HttpResponse("Error working on it")
-    
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+
+    # check if the post exist
     user = request.user
     try:
         post = Post.objects.get(pk=post_id)
     except Post.DoesNotExist:
         return JsonResponse({"error" : "Post not found."}, status=404)
-    
+
+    # check if the user is the same as the editor
     if post.user != user:
         return JsonResponse({"error": "Your are not authorized to edit this post."}, status=401)
 
-
+    # load the element of json and return error if the post field doesn't exist
     data = json.loads(request.body)
     if not data.get("post"):
         return JsonResponse({"error": "Cannot find edit field."}, status=422)
-    print(data["post"])
-    print(data["post"].strip())
 
+    # save the data
     post.post = data["post"].strip()
     post.save()
 
     return JsonResponse({"success": "Post is edited successfully."}, status=201)
-    # return JsonResponse({"success": "Your post is edited sucessfully."}, status=204)
-    # return JsonResponse({"success": })
-
-    # print(data)
-    # print(data , "OKay is this working")
-    return HttpResponseRedirect(reverse('index'))
-    ...
-
 
 
 
@@ -99,7 +87,6 @@ def profile_page(request, username):
         "posts": posts
     })
 
-
     return HttpResponseRedirect(reverse('index'))
 
 
@@ -111,7 +98,7 @@ def following(request):
     follows = user.followers.all()
 
     does_follow = follows.count()
-    print(does_follow)
+
     # paginate the post
     p = Paginator(Post.objects.filter(user__in=follows).order_by('-date'), 10)
 
@@ -202,7 +189,6 @@ def comment(request, post_id):
     
     post.comment.add(comment)
     post.save()
-    # print(post.comment)
 
     print(comment.serialize(post))
 

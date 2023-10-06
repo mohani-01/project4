@@ -71,7 +71,7 @@
         {% block body %}
 
         {% endblock %}
-        {% if posts %}
+
             {% for post in posts %}
             <div class="posts">
                 <div class="username">
@@ -153,18 +153,19 @@
                     <div class="empty"><h5>No comments yet.</h5></div>
                     {% endfor %}
                 </div>
-            </div>            
+            </div>    
+            {% empty %} 
+                {% block empty_post %}
+                    <div class="no_post">
+                        {% if  user_follow and not does_follow %}
+                        <h2>No following Yet.</h2>
+                        {% else %}
+                        <h2>No posts yet.</h2>
+                        {% endif %}
+                    </div>       
+                {% endblock %}
             {% endfor %}
-        {% else %}
-        <div class="no_post">
-            {% if  user_follow and not does_follow %}
-            <h2>No following Yet.</h2>
-            {% else %}
-            <h2>No posts yet.</h2>
-            {% endif %}
-        </div>
         
-        {% endif %}
         <br>
                
 
