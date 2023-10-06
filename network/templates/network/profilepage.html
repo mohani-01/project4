@@ -18,7 +18,7 @@
         </div>
 
         {% if user.is_authenticated %}
-        <form action="{% url 'follow' User.id %}">
+        <form action="{% url 'follow' User.id %}" method="post">
             {% csrf_token %}
             {% if user != User %}
                 {% if follows %}
