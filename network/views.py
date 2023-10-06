@@ -98,7 +98,6 @@ def following(request):
     follows = user.following.all()
 
     does_follow = follows.count()
-
     # paginate the post
     p = Paginator(Post.objects.filter(user__in=follows).order_by('-date'), 10)
 
