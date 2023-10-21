@@ -11,6 +11,9 @@ class Comment(models.Model):
     comment = models.TextField()
     time = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-time']
+        
     def serialize(self, post):
         return {
             "user": self.user.username,
