@@ -18,7 +18,6 @@ def index(request):
     # paginate all the posts based on date , 10 posts each
     p = Paginator(Post.objects.all().order_by('-date'), 10)
 
-
     # get a paginated posts based on the number given
     page = request.GET.get("page")
     posts = p.get_page(page)
@@ -31,7 +30,6 @@ def index(request):
 
 @login_required(login_url="/login")
 def addpost(request):
-
     # Via method Post
     if request.method == "POST":
         form = NewPost(request.POST)
@@ -48,17 +46,16 @@ def addpost(request):
 
 @login_required(login_url="/login")
 def editpost(request, post_id):
-
+    
+    # Check if the method is PUT
     if request.method != "PUT":
         return JsonResponse({"error": "Method not allowed"}, status=405)
-
 
     # check if the post exist
     try:
         post = Post.objects.get(pk=post_id)
     except Post.DoesNotExist:
         return JsonResponse({"error" : "Post not found."}, status=404)
-
 
     # check if the user is the same as the editor
     if post.user != request.user:
