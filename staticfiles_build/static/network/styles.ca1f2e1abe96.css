@@ -1,0 +1,839 @@
+/* body, * {
+    box-sizing: border-box;
+} */
+
+:root {
+    --bg-button: rgba(255, 166, 0, 0.75);
+    --bg-button-hover: rgb(255, 166, 0);
+    --bg-post-hover: rgb(255, 252, 245);
+     
+}
+
+body {
+    margin: 0;
+    font-family: 'Gabarito', cursive;  
+        background: rgb(255, 255, 250); 
+
+
+}
+
+.middle-everything {
+    width: 100%;
+}
+.span-like {
+        border: .001rem solid transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2rem;
+        height: 1rem;
+        padding: 17px 1px 13px 1px;
+        margin: 0;
+        position: relative;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+  
+    .heart {
+        width: .8rem;
+        height: .8rem;
+        background-color: white;
+        position: absolute;
+        transform: rotate(45deg);
+        transition: background-color 1s ease;
+    }
+
+    .heart::before {
+        content: "";
+        width: inherit;
+        height: inherit;
+        background-color: inherit;
+        position: absolute;
+        right: 0%;
+        bottom: 50%;
+        border-radius: 50%;
+
+    }
+    
+    .heart::after {
+        content: "";
+        width: inherit;
+        height: inherit;
+        background-color: inherit ;
+        position: absolute;
+
+        border-radius: 50%;
+        bottom: 0%;
+        left: -50%;
+    } 
+
+    .liked {
+        background-color: rgb(255, 0, 0);
+    } 
+
+    .not-liked {
+        background-color: white;
+    }
+    
+    .not-liked:hover, .liked:hover {
+        width: .7rem;
+        height: .7rem;
+    }
+
+    .comments:hover {
+
+        cursor: pointer;
+    }
+
+    .pagination {
+        margin-right: .5rem;
+
+    }
+
+
+    .page-link {
+        background-color: white;
+        color: var(--bg-button-hover);
+        border-color: var(--bg-post-hover) !important;
+    }
+    
+    .active > #active {
+        background-color: var(--bg-button);
+        border-color: var(--bg-post-hover);
+    }
+
+    .active > #active {
+        background-color: var(--bg-button-hover);
+
+    }
+
+    .page-link:hover {
+        background-color: rgb(255, 243, 232);
+        color: var(--bg-button-hover);
+    }
+    
+    .page-link:focus {
+        background-color: var(--bg-button-hover);
+        color: white;
+        box-shadow: none;
+    } 
+
+    .empty {
+        margin: 20px;
+        color: rgb(0, 0, 0);
+    }
+    
+    
+       
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+   
+    .network { 
+        position: sticky;
+        z-index: 333;
+        top: 0;
+        right: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    .navbar > a {
+        color: orange !important;
+        text-shadow: 2px 2px black;
+        font-size: 1.6rem;
+    }
+
+    .nav-bar-network > li > a {
+        color: orangered !important;
+    }
+
+    .nav-bar-network {
+        display: flex;
+        width: max-content;
+        justify-content: space-between;
+       flex-direction: row;
+        width: 100%; 
+        min-width: 300px;
+
+        z-index: 333;
+    }
+    .nav-bar-network > li {
+        border: 2px solid transparent;
+
+        
+    }
+    .nav-bar-network > li:hover {
+        border-color: orange !important;
+        border-radius: .5rem;
+        padding: 0 .5rem;
+    }
+
+    .main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        min-width: 310px;
+        padding: 5px;
+    }   
+
+    .new-post {
+        display: flex;
+        padding: 0.5rem;
+        border: 1px solid rgb(255, 170, 0);
+        margin: 1rem 0.25rem;
+
+    }
+
+    .new-post:hover {
+        background-color: var(--bg-post-hover);
+    }
+    
+    .user-icon {
+        width: 3rem;
+        padding: 0.25rem;
+    }
+    
+    .user-icon > svg {
+        width: 2.5rem;
+    }
+    
+    .post-area {
+        width: 100%;
+        padding: 0.25rem 0px 0px 0.25rem;
+    }
+      
+  
+    .posts {
+        border: 0.1rem solid rgba(255, 217, 0, 0.8);
+
+        padding: 0.5rem;
+        margin: .5rem .2rem;
+        transition: background-color, box-shadow, border-color 200ms linear;
+    }
+    
+    .user-username {
+        width: 100%;
+        padding-left: .5rem;
+    }
+
+    .edit {
+        top: 0.25rem;
+        right: 0.25rem;
+        padding: 0.1rem .8rem; 
+    }
+    
+    .edit-buttons > button {
+        margin: 0.2rem 0.2rem;
+        padding: 0.2rem 1rem;
+        border-radius: 5px;
+    }
+  
+    
+    .post-content {
+        padding: 1rem;
+        font-family: 'Lato', sans-serif;
+        /* text-align: justify; */
+    }  
+   
+}
+
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .network { 
+        justify-content: center;
+        position: sticky;
+        z-index: 333;
+        top: 0;
+        right: 0;
+        margin: 0;
+        width: auto;
+        margin: auto;
+        min-width: 600px;
+        max-width: 650px;
+        /* color: orangered !important; */
+    }
+    .navbar > a {
+        color: orange !important;
+        text-shadow: 2px 2px black;
+        font-size: 1.6rem;
+    }
+
+    .nav-bar-network > li > a {
+        color: orangered !important;
+        font-size: 1.1rem;
+    }
+    .nav-bar-network > li {
+        border: 2px solid transparent;
+        padding: 0 .5rem;
+        transition: border-radius, 300ms ease-in;
+    }
+    .nav-bar-network > li:hover {
+        border-color: orange !important;
+        border-radius: .5rem;
+    }
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+    }   
+
+    .navbar > * {
+        margin: 0 !important;
+    }
+    .nav-bar-network {
+        display: grid;
+        grid-template-columns: auto auto auto auto ;
+        column-gap: 1rem;
+       
+    }
+
+    .main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+  
+    .middle-everything {
+
+        max-width: 650px;
+        padding: .5rem;
+        border: .2rem solid #f2f2f2;
+        border-top: none;
+    }
+
+    .new-post {
+        display: flex;
+        padding: 1rem;
+        margin: 1rem 0.5rem;
+        border: 3px solid rgb(255, 170, 0);
+
+    }
+    .new-post:hover {
+        background-color: var(--bg-post-hover);
+    }
+    
+    .user-icon {
+   
+        width: 5rem;
+        padding: 1rem 0.5rem;
+    }
+    
+    .user-icon > svg {
+        width: 3rem;
+        
+    }
+    
+    .post-area {
+        width: 100%;
+        padding: 1rem 0.25rem 0px 0.5rem;
+    }    
+    
+    .posts {
+        border: 0.2rem solid rgba(255, 217, 0, 0.8);
+        padding: 1rem;
+        margin: 0.3rem;
+        transition: background-color, box-shadow, border-color 200ms linear;
+    } 
+
+    
+    
+    .user-username {
+        width: 100%;
+        padding: 1rem .5rem;  
+    }
+ 
+    
+
+    .edit {
+        top: 0.5rem;
+        right: 0.5rem;
+        padding: 0.1rem 1rem;
+    }
+
+    .post-content {
+        padding: 1rem 2rem 2rem 2rem;
+        text-align: justify;
+        font-family: 'Lato', sans-serif;
+        font-size: 18px;
+    }
+    
+}
+
+
+.user-icon {
+        display: flex;
+        justify-content: center;
+  }
+
+.user-icon > svg {
+    color: rgb(255, 255, 255);
+    padding: 2px;
+    background-color: rgb(242, 140, 7);
+    border-radius: 50%;
+
+    height: fit-content;
+    text-align: center;
+}
+
+
+#text-post {
+    border: 1.5px solid rgb(255, 223, 116);
+    outline: none;
+    width: 100%;
+
+    padding: 0.5rem 1rem;
+
+    max-height: 400px;
+    resize: none;
+    overflow: auto;
+    cursor: auto;
+    transition: border-color, 500ms ease-in-out;
+}
+
+
+
+#text-post:hover {
+    border-color: rgb(255, 166, 0);
+}
+
+#submit-post {
+    display: flex;
+    justify-content: flex-end;    
+    padding: 0.5rem 0px;
+}
+
+#input-post {
+    width: 4rem;
+    background-color: var(--bg-button);
+    color: white;
+    border: none;
+    padding: 0.3rem;
+    border-radius: 5px;
+}
+
+#input-post:hover {
+    background-color: var(--bg-button-hover);
+    box-shadow: 0px 0px 10px rgba(110, 110, 110, 0.353);
+}
+
+
+#input-post:disabled {
+    background-color: rgba(128, 128, 128, 0.555);
+    box-shadow: none;
+}
+
+.posts:hover {
+    background-color: var(--bg-post-hover);
+    box-shadow: inset 0px 0px 2px gold;
+    box-shadow: 0px 0px 20px silver;
+    border-color: gold;
+}
+
+
+ 
+.username {
+    display: flex;
+    position: relative;
+}
+
+.hyper-link-user {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-size: 1.2rem;
+    transition: text-decoration 1s ease-in;
+}
+
+.hyper-link-user:hover {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.edit {
+    position: absolute;
+    z-index: 33;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: white;
+    background-color: var(--bg-button);
+    border: 1px solid orange;
+    border-radius: 3px;
+    transition: background-color, color, box-shadow, border-radius, 250ms ease-in-out;
+}
+
+.edit:hover {
+    color: var(--bg-button-hover);
+    background-color: white;
+
+    box-shadow: 0px 0px 2px 2px rgb(255, 204, 108);
+    border-radius: 4px;
+}
+
+.edit-content {
+    max-height: 300px;
+    width: 100%;
+    border-color: rgb(255, 219, 127);
+    outline-color: rgb(255, 219, 127);
+    padding: 1rem;
+    border-radius: .5rem;
+    resize: none;
+    overflow: auto;
+    cursor: auto;
+}
+
+.edit-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: end;
+    margin: 0.25rem;
+
+}
+
+.edit-buttons > button {
+    margin: 0.2rem .2rem;
+    padding: 0.2rem 1rem;
+    border-radius: 5px;
+}
+
+  
+.stop-edit {
+    color: black;
+    background-color: white;
+    border: 1px solid silver;
+}
+
+.stop-edit:hover {
+    color: white;
+    background-color: rgb(130, 130, 130);
+    box-shadow: 2px 2px 10px silver;
+}
+
+.new-edit {
+    color: white;
+    background-color: var(--bg-button);
+    border: 1px solid silver;
+}
+
+.new-edit:hover {
+    background-color: var(--bg-button-hover);
+    box-shadow: 2px 2px 10px silver;
+}
+
+
+.post-info {
+    display: flex;
+    justify-content: space-evenly;
+
+    border: 1px solid orange;
+    background-color: rgb(255, 217, 159);
+    font-family: 'Gabarito', cursive;
+
+}
+
+
+.post-info > div {
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+    text-align: center;
+    border: 2px solid transparent;
+    color: black;
+    width: 100%;
+    text-shadow: 1px 1px  white;
+    transition: background-color,text-shadow, color, 300ms ease-out;
+}
+
+.post-info > div:hover {
+    background-color: var(--bg-button);
+    color: white;
+    text-shadow: 2px 1px  black;
+}
+
+.post-comments {
+    margin: 0 0.5rem 1rem 1rem;
+    padding: 0.5rem 0.5rem;
+    border-left: 0.2rem solid orange;
+    border-bottom: 0.2rem solid orangered;
+    border-bottom-left-radius: .5rem;
+}
+
+.comment-title {
+    margin-bottom: .5rem;
+    padding: .5rem;
+    border-bottom: 1.5px solid black;
+}  
+
+.comment-textarea {
+   padding: 0.25rem 0.5rem;
+}
+
+.add-new-comment {
+    width: 100%;
+    min-height: 4rem;
+    height: 4rem;
+    padding: 0.5rem;
+    outline: none;
+    resize: none;
+    max-height: 15rem;
+}
+
+.add-new-comment:hover {
+    border-color: orangered;
+}
+
+.submit-comment-area {
+    display: flex;
+    justify-content: end;
+}
+
+
+
+.submit-comment {
+    border-radius: .5rem;
+    padding: 0.3rem 1rem;
+
+    color: white;
+    background-color: rgba(255, 166, 0, 0.75);
+    margin: 0.5rem 0;
+    border: none;
+    border-radius: 3px;
+}
+
+.submit-comment:hover {
+    background-color: rgb(255, 166, 0);
+    border: none;
+    outline: none;
+}
+
+.submit-comment:disabled {
+    background-color: rgb(150, 150, 150);
+    border-color: aliceblue;
+}
+
+
+
+.post-comment {
+    display: flex;
+    border: 1px solid gold;
+    margin-top: .5rem;
+
+    background-color: inherit;
+    padding: .5rem;
+    transition: border-color, box-shadow 500ms ease-out;
+}
+
+.post-comment:hover {
+    border-color: var(--bg-button-hover);
+    box-shadow: 0px 0px 10px 5px rgb(216, 216, 216);
+}
+
+.post-comment > .user-icon, .post-comment > .comment-area {
+    padding-top: .5rem;
+
+}
+
+.comment-area {
+    padding-left: .5rem;
+    width: 100%;
+}
+
+.commenter-info > .hyper-link-user  {
+    font-size: 1rem;
+    transition: text-decoration 1s ease-in;
+
+}
+
+.comment {
+    padding: .4rem 0;
+}
+
+.commented-on {
+    font-size: 0.9rem;
+    padding: 0;
+}
+
+.profile {
+    width: 100%;
+    border-bottom: 2px solid orange;
+    margin-bottom: 2rem;
+}
+
+#profile-container {
+    position: relative;
+    width: inherit;
+    height: 14rem;
+}    
+
+#profile-background {
+    position: absolute;
+
+    width: 100%;
+    height: 10rem;
+    border: .2rem solid orange;
+    background-image: linear-gradient(to bottom right, rgba(1, 81, 146, 0.676), rgba(0, 179, 255, 0.693));
+}
+
+#profile-picture {
+    position: absolute;
+    top: 6.5rem;
+    left: 2rem;
+
+    width: 7rem;
+    height: 7rem;
+    border: .2rem solid rgba(255, 166, 0, 0.993);
+    border-radius: 50%;
+    background-color: rgb(84, 141, 165);
+    color: white;
+    padding: 10px;
+    z-index: 23;
+}
+ 
+#profile-picture > svg {
+    width: 100%;
+    height: 100%;
+}
+
+.follow-button {
+    position: absolute;
+    top: 11rem;
+    right: 1rem;
+    margin: 10px;
+    background-color: orange;
+    color: white;
+    font-weight: 500;
+
+    padding: 0.25rem 1.5rem;
+    border: 1px solid orangered;
+    border-radius: 4rem;
+}
+
+
+.follow-button:hover {
+    background-color: white;
+    color: orange;
+    border-color: orange;
+}
+
+#profile-info {
+    display: flex;
+    height: max-content;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+}
+
+#profile-info > div {
+    border: 2px solid transparent;
+    padding: 1rem 0;
+
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    width: 100%;
+    cursor: pointer;
+}
+
+#profile-info > div:hover {
+    border-bottom: 2px solid orangered;
+    color: rgb(255, 8, 0);
+    font-weight: 550;
+
+}
+
+.error {
+    margin: .5rem 0;
+    padding: .5rem;
+    border-left: 2px solid orangered;
+    color: red;
+    background-color: rgb(255, 241, 236); 
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+   
+
+::-webkit-scrollbar-thumb {
+    background: gold; 
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(244, 207, 0);  
+}
+
+::-webkit-scrollbar-track-piece {
+    background: rgb(255, 252, 234); 
+ }
+
+
+
+ .login {
+    width: auto;
+    max-width: 500px;
+    margin: 2rem auto;
+    min-width: 300px;
+    border: 4px double var(--bg-button-hover);
+    padding: 2rem .5rem;
+    
+ }
+
+ .login > .error {
+    padding: .5rem;
+    margin: 1rem;
+ }
+
+ .login-title {
+    text-align: center;
+    margin-bottom: 2rem;
+ }
+
+
+ .submit-login {
+    width: 100%;
+    background-color: var(--bg-button) ;
+    border-color: var(--bg-button-hover);
+ }
+
+ .submit-login:hover {
+    background-color: var(--bg-button-hover);
+    border-color: inherit;
+ }
+
+ .submit-login:focus {
+    background-color: var(--bg-button-hover) !important;
+    border-color: white !important;
+    box-shadow: 0px 0px 3px 2px var(--bg-button)  !important;
+ }
+
+ .login-redirect {
+     padding: 1rem 0;
+ }
+ 
+ .login-redirect > a {
+
+    color: var(--bg-button-hover);
+ }
+
+
+.form-control:focus {
+    box-shadow: 0px 0px 2px 2px var(--bg-button) !important;
+    border: 2px solid var(--bg-post-hover) !important;
+}
+
+
+.no_post {
+    width: max-content;
+    padding: 3px 1rem;
+    margin: auto;
+    color: var(--bg-button-hover);
+    border-left: .2rem solid var(--bg-button-hover);
+}
