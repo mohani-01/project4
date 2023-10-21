@@ -193,10 +193,12 @@ body {
     .user-icon {
         width: 3rem;
         padding: 0.25rem;
+        height: 3rem;
     }
     
     .user-icon > svg {
         width: 2.5rem;
+        height: auto;
     }
     
     .post-area {
