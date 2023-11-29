@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // for users who logged in
     if (document.querySelector('#form-post')) {
+        document.querySelector('#form-post').addEventListener('submit', () => {
+            document.getElementById('#text-post').readOnly = false;
+            document.querySelector('#input-post').disabled =  true;
+        })
         
         // resize the post area
         resizeTextarea(document.querySelector('#text-post'));
